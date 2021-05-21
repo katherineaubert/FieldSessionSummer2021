@@ -1,0 +1,23 @@
+Bootstrap Containers
+	-2 types of containers
+		<div class="container"></div> // fix width
+		<div class="container-fluid"></div> // takes the width of the screen
+	-when to use fixed layout
+		-only Desktop/screen
+		-login screen
+			-username/password
+			- fixed with and adapt to screen resolutions
+		-static websites
+
+Bootstrap Grid
+	-Design layout, templates of the website
+	-Bootstrap grid allows upto 12 columns in 1 row
+	-if you want more columns we need to use subcolumns, instead of main columns
+	-divde the row into columnds
+	-Bootstrap Grid supports various screen resolutions
+		-xs - extra small
+		-sm - mobile/ipad
+		-md - ipad/desktop
+		-lg
+		-xl - extra large
+	
