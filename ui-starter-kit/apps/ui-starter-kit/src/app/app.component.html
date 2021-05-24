@@ -1,0 +1,40 @@
+<mat-sidenav-container class="sidenav-container">
+  <mat-sidenav #navDrawer class="app-sidenav" fixedInViewport
+      [attr.role]="'navigation'"
+      mode="over"
+      position="end">
+    <div>
+      <mat-toolbar color="primary">
+        <mat-toolbar-row>
+          <span>Nav Menu</span>
+        </mat-toolbar-row>
+      </mat-toolbar>
+      <mat-nav-list>
+        <a mat-list-item (click)="navDrawer.close()" [routerLink]="changePassConfig.route">
+          <mat-icon matListIcon [svgIcon]="changePassConfig.icon"></mat-icon>
+          {{changePassConfig.title}}
+        </a>
+        <a mat-list-item (click)="logout()" [routerLink]="logoutConfig.route">
+          <mat-icon matListIcon [svgIcon]="logoutConfig.icon"></mat-icon>
+          {{logoutConfig.title}}
+        </a>
+      </mat-nav-list>
+    </div>
+  </mat-sidenav>
+  <mat-sidenav-content fxLayout="column">
+    <mat-toolbar color="primary">
+      <mat-toolbar-row>
+        <span>BurstIQ Starter Kit</span>
+        <span fxFlex></span>
+        <button mat-icon-button (click)="navDrawer.toggle()">
+          <mat-icon>menu</mat-icon>
+        </button>
+      </mat-toolbar-row>
+    </mat-toolbar>
+    <div class="app-content" fxLayout="row" fxFlex="100">
+      <div fxLayout="column" fxFlex>
+        <router-outlet></router-outlet>
+      </div>
+    </div>
+  </mat-sidenav-content>
+</mat-sidenav-container>

@@ -1,0 +1,10 @@
+/* You can add global styles to this file, and also import other style files */
+@import '~@angular/material/theming';
+@import '@angular/material/prebuilt-themes/deeppurple-amber.css';
+
+@import 'biq-lib-styles.scss';
+@import 'biq-filters-styles.scss';
+
+body {
+  margin: 0px;
+}
