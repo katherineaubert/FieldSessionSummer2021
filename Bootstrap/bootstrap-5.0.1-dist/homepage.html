@@ -20,71 +20,61 @@
             font-family: 'Oswald', sans-serif !important; /*Font declaration*/
         }
 
+        /*********************************************/
         /*HEADER INFORMATION SECTION*/
         /*THIS SECTION STAYS THE SAME OVER EVERY PAGE*/
-        .headerspacing {
+        /*********************************************/
+
+        .headerspacing { /*Creates a space at the top, just for asthetics*/
             height: 10px;
             background-color: #ffffff; /*Change color*/
         }
 
-        .logospacing {
+        .logospacing { /*Creates a space for the logo at the top of the page*/
             height: 40px;
             background-color: #000000; /*Change color*/
         }
 
-        .maintitle {
+        .maintitle { /*makes the main title text white*/
             color: white;
         }
 
-        .navigationbar {
+        .navigationbar { /*sets the height and color of the navigation bar*/
             height: 28px;
             background-color: #ffffff; /*Change color*/
         }
 
-        .seperation {
+        .seperation { /*creates a small sperating bar, just for asthetics*/
             height: 3px;
-            background-color: lightgray; /*CHange color*/
+            background-color: lightgray; /*Change color*/
         }
 
-        .navigationbar .home {
+        .navigationbar .home { /*sets the width and alignment of the home button*/
             width: 79px;
             float: left;
         }
 
-        .navigationbar .about {
+        .navigationbar .about { /*sets the width and alignment of the about button*/
             width: 79px;
             float: left;
         }
 
-        .navigationbar .learn {
+        .navigationbar .learn { /*sets the width and alignment of the learn more button*/
             width: 111px;
             float: left;
         }
 
-        .navigationbar .contact {
+        .navigationbar .contact { /*sets the width and alignment of the contact us button*/
             width: 190px;
             float: left;
         }
 
-        .navigationbar .login {
+        .navigationbar .login { /*sets the width and alignment of the login button*/
             width: 75px;
             float: right;
         }
 
-
-        /*MAIN INFORMATION SECTION*/
-        .mainbackground {
-            height: 600px;
-            background-color: darkseagreen;
-        }
-
-
-        /*FOOTER INFORMATION SECTION*/
-        /*THIS SECTION STAYS THE SAME OVER EVERY PAGE*/
-        .footer {
-            height: 70px;
-        }
-        .button{
+        .button {   /*all of the presets for the buttons*/
             border: none;
             color: white;
             padding: 0px 20px;
@@ -96,20 +86,21 @@
             transition-duration: 0.4s;
             cursor: pointer;
         }
-        .navbutton{
+
+        .navbutton { /*static look of the buttons*/
             background-color: white;
             color: black;
             border: 2px solid #4CAF50;
         }
-        .navbutton:hover{
-            background-color: #4CAF50;
-            color: white;
-        }
 
-        /* Bordered form */
-        form {
-            border: 3px solid #f1f1f1;
-        }
+            .navbutton:hover { /*how the button looks when cursor is hovering over them*/
+                background-color: #4CAF50;
+                color: white;
+            }
+
+        /**************************************************/
+        /*Everything below is CSS code for the login popup*/
+        /**************************************************/
 
         /*Make the text inputs the full width of the login popup*/
         input[type=text], input[type=password] {
@@ -121,7 +112,7 @@
             box-sizing: border-box;
         }
 
-        /* Set a style for all buttons */
+        /* Set a style for all buttons inside the login popup*/
         button {
             background-color: #04AA6D;
             color: white;
@@ -131,10 +122,10 @@
             cursor: pointer;
             width: 100%;
         }
-        /* Add a hover effect for buttons */
-        button:hover {
-            opacity: 0.8;
-        }
+            /* Add a hover effect for buttons inside the login popup*/
+            button:hover {
+                opacity: 0.8;
+            }
 
         /* Extra style for the cancel button (red) */
         .cancelbtn {
@@ -152,7 +143,7 @@
         /* Avatar image */
         img.avatar {
             width: 40%;
-            border-radius: 50%;
+            /*border-radius: 50%;*/
         }
 
         /* Add padding to containers */
@@ -203,26 +194,27 @@
         /* The Close Button */
         .close {
             /* Position it in the top right corner outside of the modal */
-            position: absolute;
-            right: 25px;
-            top: 0;
-            color: #000;
+            position: fixed;
+            right: 120px;
+            top: 30px;
+            color: #ffff;
             font-size: 35px;
             font-weight: bold;
         }
-        
-        /* Close button on hover */
-        .close:hover,
-        .close:focus {
-            color: red;
-            cursor: pointer;
-        }
 
-        /* Everything below is popup animation */
+            /* Close button on hover */
+            .close:hover,
+            .close:focus {
+                color: red;
+                cursor: pointer;
+            }
+
+        /* Everything below is for popup zoom animation */
         .animate {
             -webkit-animation: animatezoom 0.6s;
             animation: animatezoom 0.6s
         }
+
         @-webkit-keyframes animatezoom {
             from {
                 -webkit-transform: scale(0)
@@ -232,6 +224,7 @@
                 -webkit-transform: scale(1)
             }
         }
+
         @keyframes animatezoom {
             from {
                 transform: scale(0)
@@ -241,8 +234,34 @@
                 transform: scale(1)
             }
         }
+
+        /*************************************/
+        /*MAIN INFORMATION SECTION*/
+        /*THIS SECTION CHANGES FOR EVERY PAGE*/
+        /*************************************/
+
+        .mainbackground { /*sets the height and color of the background*/
+            height: 600px;
+            background-color: darkseagreen;
+        }
+
+        /*********************************************/
+        /*FOOTER INFORMATION SECTION*/
+        /*THIS SECTION STAYS THE SAME OVER EVERY PAGE*/
+        /*********************************************/
+
+        .footer {
+            height: 70px;
+        }
+
+        /* Bordered form */
+        form {
+            border: 3px solid #f1f1f1;
+        }
     </style>
   </head>
+
+
   <body>
       <div class="container-fluid">
           <!-- HEADER INFORMATION SECTION -->
@@ -261,10 +280,10 @@
           
           <div class="navigationbar">   <!-- navigation bar class -->
               <div class=" col-2 home">
-                  <a class="button navbutton" href="homepage.html">Home</a>    <!-- Change the link to change where the button goes -->
+                  <a class="button navbutton" href="homepage.html">Home</a> <!-- Change the link to change where the button goes -->
                   </div>
               <div class="col-2 about">
-                  <a class="button navbutton" href="aboutpage.html">About</a>   <!-- Change the link to change where the button goes -->
+                  <a class="button navbutton" href="aboutpage.html">About</a> <!-- Change the link to change where the button goes -->
                   </div>
               <div class="col-2 learn">
                   <a class="button navbutton" href="learnpage.html">Learn More</a>  <!-- Change the link to change where the button goes -->
@@ -284,28 +303,36 @@
                       <!-- Modal Content -->
                       <form class="modal-content animate" action="/action_page.php">
                           <div class="imgcontainer">
-                              <img src="img_avatar2.png" alt="Avatar" class="avatar">
+                              <img src="RemediChainLogo.png" alt="Avatar" class="avatar">
                           </div>
 
                           <div class="container">
-                              <label for="uname"><b>Username</b></label>
-                              <input type="text" placeholder="Enter Username" name="uname" required>
+                              <label for="uname"><b>Username</b></label> <!--Label for the username box-->
+                              <input type="text" placeholder="Enter Username" name="uname" required> <!--Text box with example words inside-->
 
-                              <label for="psw"><b>Password</b></label>
-                              <input type="password" placeholder="Enter Password" name="psw" required>
+                              <label for="psw"><b>Password</b></label> <!--Label for the password box-->
+                              <input type="password" placeholder="Enter Password" name="psw" required> <!--Text box with example words inside-->
 
-                              <button type="submit">Login</button>
+                              <button type="submit">Login</button> <!--Creates a submit button titled Login-->
                               <label>
-                                  <input type="checkbox" checked="checked" name="remember"> Remember me
+                                  <input type="checkbox" checked="checked" name="remember"> Remember me <!--Creates a remember me option-->
                               </label>
                           </div>
 
                           <div class="container" style="background-color:#f1f1f1">
-                              <button type="button" onclick="document.getElementById('id01').style.display='none'" class="cancelbtn">Cancel</button>
-                              <span class="psw">Forgot <a href="#">password?</a></span>
+                              <div class="col-12 logincancelbutton">
+                                  <button type="button" onclick="document.getElementById('id01').style.display='none'" class="cancelbtn">Cancel</button> <!--Cancel button closes the popup-->
+                                  <span class="uname"><a href="createaccountpage.html">Create an account</a></span> <!--Links to a create an account page-->
+                                  <span class="psw"><a href="forgotpasswordpage.html" target="_blank" rel="noopener noreferer">Forgot password?</a></span> <!--Opens a forgot password page in a new tab-->
+                              </div>
                           </div>
                       </form>
                   </div>
+
+                  <!--*******************************-->
+                  <!--THIS SECTION IS JAVASCRIPT CODE-->
+                  <!--*******************************-->
+
                   <script>
                       // Get the modal
                       var modal = document.getElementById('id01');
@@ -319,21 +346,25 @@
                   </script>
               </div>
           </div>
-          <div class="seperation">
+          <div class="seperation"> <!--Creates a small grey bar for seperation-->
               </div>
 
 
-
+          <!-- *************************** -->
           <!-- MAIN INFORMATION SECTION -->
           <!-- THIS CHANGES FOR EVERY PAGE -->
+          <!-- *************************** -->
+
           <div class="mainbackground">
               
-              </div>
+          </div>
 
 
-
+          <!-- *********************************** -->
           <!-- FOOTER INFORMATION SECTION -->
           <!-- THIS STAYS THE SAME OVER EVERY PAGE -->
+          <!-- *********************************** -->
+
           <div class="footer bg-dark">
               </div>
 
