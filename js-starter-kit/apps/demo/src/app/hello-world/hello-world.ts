@@ -172,7 +172,7 @@ export async function demo(clientName: string, userName: string, password: strin
   // STEP 11 - query via TQL
   //
   cb('STEP 11 - query via TQL');
-  let tql = "WHERE asset.monetary_value = 4.99";
+  let tql = "WHERE asset.monetary_value = '4.99'";
 
   let assets: Asset[] = await chainClient.query(dictionary.collection, donorPrivateId, tql);
   cb(`TQL 1 ASSET:\n ${JSON.stringify(assets, undefined, 2)}`);
@@ -181,7 +181,7 @@ export async function demo(clientName: string, userName: string, password: strin
   // STEP 12 - query via TQL
   //
   cb('STEP 12 - query via TQL');
-  tql = "SELECT asset.id FROM Prescription WHERE asset.name = 'Glucose'";
+  tql = "SELECT asset.serial FROM Prescription WHERE asset.name = 'Glucose'";
 
   assets = await chainClient.query(dictionary.collection, privateIdInventory, tql);
   cb(`TQL 2 ASSET:\n ${JSON.stringify(assets, undefined, 2)}`);
@@ -195,7 +195,7 @@ export async function demo(clientName: string, userName: string, password: strin
 
   const c = `consents ${publicIdInventory} ` +
     `for ${dictionary.collection} ` +
-    `when asset.state = 'CO' ` +
+    `when asset.serial = '12345-0000' ` +
     `until Date('${endDate.toISOString()}')`; // todo: might need to be formatted to '%Y-%m-%d %H:%M:%S'
 
   tmpId = await chainClient.createSmartContract(dictionary.collection, donorPrivateId, c,
