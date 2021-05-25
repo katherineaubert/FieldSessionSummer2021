@@ -1,0 +1,53 @@
+Back end psuedocode
+
+// sets up clients
+  const chainClient = new BurstChainSDK(server, clientName);
+  const metadataClient = new MetadataSDK(server, userName, password);
+
+// function to create medication dictionary (inventory)
+function createMedicationDictionary() {
+    instantiate dictionary: {
+        set attributes to be NOT unique
+        set attibutes to be required
+        create pill name attribute
+        create dose attribute
+        create quantity attribute
+    }
+    save dictionary
+    }
+}
+
+// function to create an asset and add it to the donor's wallet
+function addDonation(name, dose, quantity) {
+    instantiate a new asset {
+        set pill name attribute
+        set dose attribute
+        set quantity attribute
+        set owner to be the user's public id (OR inventory for base case that Simon was talking about)
+
+    }
+    
+}
+
+// function to transfer ownership to inventory
+function transferToInventory(assetID) {
+    api call to get asset via id
+    api call to update asset status:
+        transfer ownership to inventory public/private key   
+}
+
+// function to process data from the form into a readable format for blockchain
+{
+    // don't know how to do this yet! will be researching today (5/24)
+}
+
+// function to transfer ownership to recipient {
+    api call to get asset via id 
+    api call to update asset status:
+        transfer ownership to recipient public/private key
+}
+
+//function to get inventory from the blockchain {
+    api call to query assets from the burstchain 
+    js.parse to parse the data into a proper formal for UI
+}

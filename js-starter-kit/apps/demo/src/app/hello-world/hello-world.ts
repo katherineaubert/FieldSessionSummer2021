@@ -23,27 +23,37 @@ export async function demo(clientName: string, userName: string, password: strin
   cb('STEP 1 - Setup the dictionary for a chain')
 
   const dictionary: CollectionDictionary = {
-    collection: 'address',
+    collection: 'Prescriptions',
 
     indexes: [{
       unique: true,
-      attributes: ['id']
+      attributes: ['serial']
     }],
 
     rootnode: {
       attributes: [{
-        name: 'id',
+        name: 'name',
         required: true
       }, {
-        name: 'addr1'
+        name: 'dose',
+        required: true
       }, {
-        name: 'addr2'
+        name: 'qty_remaining',
+        required: true
       }, {
-        name: 'city'
+        name: 'expiration_date'
       }, {
-        name: 'state'
+        name: 'NDC'
       }, {
-        name: 'zip'
+        name: 'form'
+      }, {
+        name: 'manufacturer'
+      }, {
+        name: 'lot'
+      }, {
+        name: 'serial'
+      }, {
+        name: 'monetary_value'
       }]
     }
   };
@@ -72,11 +82,16 @@ export async function demo(clientName: string, userName: string, password: strin
   //
   cb('STEP 4 - create asset for the dictionary');
   const asset = {
-    id: `'${Math.floor(Math.random() * (Math.floor(10000) - Math.ceil(1000))) + Math.ceil(1000)}'`,
-    addr1: '123 Main St',
-    city: 'Nowhere',
-    state: 'XX',
-    zip: '12345-0000'
+    name: 'Glucose',
+    dose: '20',
+    qty_remaining: `'${Math.floor(Math.random() * (Math.floor(10000) - Math.ceil(1000))) + Math.ceil(1000)}'`,
+    expiration_date: '02-02-2222',
+    NDC: '12345-0000',
+    form: 'tablet',
+    manufacturer: 'Tandem',
+    lot: '12345-0000',
+    serial: '12345-0000',
+    monetary_value: 9.99
   };
 
   const assetMetadata = {
@@ -113,7 +128,7 @@ export async function demo(clientName: string, userName: string, password: strin
   // STEP 8 - update asset
   //
   cb('STEP 8 - update asset');
-  asset['state'] = 'CO';
+  asset['monetary_value'] = 4.99;
 
   let tmpId = await chainClient.updateAsset(dictionary.collection, privateId, firstAssetId, asset, null);
   cb(`Asset updated ${tmpId} for this demo`);
@@ -150,7 +165,7 @@ export async function demo(clientName: string, userName: string, password: strin
   // STEP 11 - query via TQL
   //
   cb('STEP 11 - query via TQL');
-  let tql = "WHERE asset.state = 'CO'";
+  let tql = "WHERE asset.monetary_value = 4.99";
 
   let assets: Asset[] = await chainClient.query(dictionary.collection, secondPrivateId, tql);
   cb(`TQL 1 ASSET:\n ${JSON.stringify(assets, undefined, 2)}`);
@@ -159,7 +174,7 @@ export async function demo(clientName: string, userName: string, password: strin
   // STEP 12 - query via TQL
   //
   cb('STEP 12 - query via TQL');
-  tql = "SELECT asset.id FROM address WHERE asset.state = 'CO'";
+  tql = "SELECT asset.id FROM address WHERE asset.name = 'Glucose'";
 
   assets = await chainClient.query(dictionary.collection, privateId, tql);
   cb(`TQL 2 ASSET:\n ${JSON.stringify(assets, undefined, 2)}`);
