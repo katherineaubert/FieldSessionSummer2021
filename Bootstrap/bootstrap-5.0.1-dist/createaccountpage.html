@@ -241,8 +241,29 @@
         /*************************************/
 
         .mainbackground { /*sets the height and color of the background*/
-            height: 600px;
+            height: 10000px;
             background-color: darkseagreen;
+        }
+        .logo {
+            height: 130px;
+            background-color: #326659;
+        }
+        .image-center{
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+            margin-top: auto;
+            margin-bottom: auto;
+            width: 80%;
+        }
+        .spacing1{
+            height: 30px;
+        }
+        .philbaker{
+            max-width: 100%;
+        }
+        .explanation{
+            background-color: #326659;
         }
 
         /*********************************************/
@@ -303,17 +324,19 @@
                       <!-- Modal Content -->
                       <form class="modal-content animate" action="/action_page.php">
                           <div class="imgcontainer">
-                              <img src="RemediChainLogo.png" alt="Avatar" class="avatar"> <!--RemediChain logo in the login popup-->
+                              <img src="RemediChain-Primary-Green.png" alt="RemediChain Logo" class="avatar"> <!--RemediChain logo in the login popup-->
                           </div>
 
                           <div class="container">
-                              <label for="uname"><b>Username</b></label> <!--Label for the username box-->
-                              <input type="text" placeholder="Enter Username" name="uname" required> <!--Text box with example words inside-->
+                              <label for="uname"><b>Email</b></label> <!--Label for the username box-->
+                              <input type="text" placeholder="Enter Email" name="uname" required> <!--Text box with example words inside-->
 
                               <label for="psw"><b>Password</b></label> <!--Label for the password box-->
                               <input type="password" placeholder="Enter Password" name="psw" required> <!--Text box with example words inside-->
 
-                              <button type="submit">Login</button> <!--Creates a submit button titled Login-->
+                              <!--Un comment this section later-->
+                              <!--<button type="submit">Login</button> <!--Creates a submit button titled Login-->
+                              <a class="button navbutton col-12" href="accountpage.html">Login</a>
                               <label>
                                   <input type="checkbox" checked="checked" name="remember"> Remember me <!--Creates a remember me option-->
                               </label>
@@ -357,7 +380,29 @@
           <!-- *************************** -->
 
           <div class="mainbackground">
-              
+              <div class="container">
+                  <form>
+                      <div class="mb-3">
+                          <label for="firstname" class="form-label">First Name</label>
+                          <input type="text" class="form-control" id="firstname" />
+                          <label for="lastname" class="form-label">Last Name</label>
+                          <input type="text" class="form-control" id="lastname" />
+                      </div>
+                      <div class="mb-3">
+                          <label for="inputemail" class="form-label">Email address</label>
+                          <input type="email" class="form-control" id="inputemail" aria-describedby="emailhelp" />
+                          <div id="emailhelp" class="form-text"> We will never share your email with anyone else</div>
+                      </div>
+                      <div class="mb-3">
+                          <label for="inputpassword" class="form-label">Password</label>
+                          <input type="password" class="form-control" id="inputpassword" aria-describedby="passwordhelp" />
+                          <div id="passwordhelp" class="form-text"> Your password must be 8-20 characters long</div>
+                      </div>
+                      <div class="mb-3">
+                          <button type="submit" class="button navbutton"> Submit</button>
+                      </div>
+                  </form>
+              </div>
           </div>
 
 
