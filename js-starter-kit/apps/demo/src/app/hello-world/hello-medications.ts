@@ -22,9 +22,9 @@ async function getInventoryPublicId () {
 }
 
 
-//create an object representing the prescription dictionary
-const prescriptionDictionary: CollectionDictionary = {
-  collection: 'Prescription',
+//create an object representing the medications dictionary
+const medicationsDictionary: CollectionDictionary = {
+  collection: 'Medications',
 
   indexes: [{
     unique: true,
@@ -86,7 +86,7 @@ export async function userLogin(userName: string, password: string) {
 
     cb('\n'
       + '--------------------------------------------------------------\n'
-      + 'Burst Chain Client - Hello Prescription Demo\n'
+      + 'Burst Chain Client - Hello Medications Demo\n'
       + 'Copyright (c) 2015-2021 BurstIQ, Inc.\n'
       + '--------------------------------------------------------------\n')
 
@@ -100,7 +100,7 @@ let publicIdUser = null;
 export async function getIdPair (userEmail) {
   //TODO fix the API query to see if we find the user based off the email and get their private id, otherwise gen a new id pair
   let tql = `WHERE asset.email = ${userEmail}`;
-  let assets: Asset[] = await chainClient.query(prescriptionDictionary.collection, privateIdUser, tql);
+  let assets: Asset[] = await chainClient.query(medicationsDictionary.collection, privateIdUser, tql);
 
   if (!privateIdUser) {
     privateIdUser = await chainClient.genPrivateId();
@@ -110,7 +110,7 @@ export async function getIdPair (userEmail) {
 }
 
 
-//create an asset on the prescription blockchain, called when the donation form is filled out
+//create an asset on the medications blockchain, called when the donation form is filled out
 export async function addDonation (drugName, dose, quantity){
   const asset = {
     name: drugName,
@@ -119,10 +119,10 @@ export async function addDonation (drugName, dose, quantity){
   };
   
   const assetMetadata = {
-    loaded_by: 'hello prescription demo'
+    loaded_by: 'hello medications demo'
   };
 
-  const firstAssetId = await chainClient.createAsset(prescriptionDictionary.collection, privateIdUser, asset, assetMetadata,
+  const firstAssetId = await chainClient.createAsset(medicationsDictionary.collection, privateIdUser, asset, assetMetadata,
     [publicIdUser]);
 }
 
