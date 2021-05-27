@@ -23,7 +23,7 @@ export async function demo(clientName: string, userName: string, password: strin
   cb('STEP 1 - Setup the dictionary for a chain')
 
   const dictionary: CollectionDictionary = {
-    collection: 'Prescription',
+    collection: 'Medications',
 
     indexes: [{
       unique: true,
@@ -182,7 +182,7 @@ export async function demo(clientName: string, userName: string, password: strin
   // STEP 12 - query via TQL
   //
   cb('STEP 12 - query via TQL');
-  tql = "SELECT asset.serial FROM Prescription WHERE asset.name = 'Glucose'";
+  tql = "SELECT asset.serial FROM Medications WHERE asset.name = 'Glucose'";
 
   assets = await chainClient.query(dictionary.collection, privateIdInventory, tql);
   cb(`TQL 2 ASSET:\n ${JSON.stringify(assets, undefined, 2)}`);
