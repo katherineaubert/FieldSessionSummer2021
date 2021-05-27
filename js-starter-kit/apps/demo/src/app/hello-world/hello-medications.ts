@@ -143,12 +143,12 @@ export async function transferFromInventory (asset) {
   //TODO
 }
 
-//get all available items in the inventory and deliver to midlevel code for display
+//get all available items in the inventory and deliver to midlevel code for display to main inventory page
 export async function getAvailableInventory () {
   //TODO
 }
 
-//get all items in the inventory and deliver to midlevel code for display
-export async function getFullInventory () {
+//get all pending items in the inventory and deliver to midlevel code for display to pharmacist inventory page
+export async function getPendingInventory () {
   //TODO
 }
