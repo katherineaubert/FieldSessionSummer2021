@@ -124,6 +124,8 @@ export async function addDonation (drugName, dose, quantity){
 
   const firstAssetId = await chainClient.createAsset(medicationsDictionary.collection, privateIdUser, asset, assetMetadata,
     [publicIdUser]);
+
+  return firstAssetId;
 }
 
 //transfer ownership of a drug from a donor to the inventory
