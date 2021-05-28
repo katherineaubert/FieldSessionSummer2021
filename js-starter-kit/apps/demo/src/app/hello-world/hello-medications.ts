@@ -32,13 +32,13 @@ const medicationsDictionary: CollectionDictionary = {
 
   rootnode: {
     attributes: [{
-      name: 'name',
+      name: 'drug_name',
       required: true
     }, {
       name: 'dose',
       required: true
     }, {
-      name: 'qty_remaining',
+      name: 'quantity',
       required: true
     }, {
       name: 'expiration_date'
@@ -69,19 +69,23 @@ const userDictionary: CollectionDictionary = {
 
   rootnode: {
     attributes: [{
-      name: 'email',
+      name: 'user_name'
+    }, {
+      name: 'user_email',
       required: true
     }, {
-      name: 'name'
+      name: 'user_phone'
     }, {
-      name: 'privateId'
+      name: 'private_id'
+    }, {
+      name: 'prescriptions'
     }]
   }
 };
 
 
 //Homepage: User Creates Account. Temporarily out of scope.
-export async function userCreateAccount(userName: string, password: string) {
+export async function userCreateAccount(userName: string, password: string, cb = log) {
 
   cb('\n'
     + '--------------------------------------------------------------\n'
@@ -107,14 +111,12 @@ export async function getIdPair (userEmail, cb = log) {
   cb(privateIdInventory + " " + publicIdInventory + " \n" + privateIdUser + " " + publicIdUser);
 }
 
-getIdPair("johndoenor@gmail.com")
-
 //create an asset on the medications blockchain, called when the donation form is filled out
-export async function addDonation (drugName, dose, quantity, cb = log){
+export async function addDonation (drug_name, dose, quantity, cb = log){
   const asset = {
-    name: drugName,
+    drug_name: drug_name,
     dose: dose,
-    qty_remaining: quantity
+    quantity: quantity
   };
 
   const assetMetadata = {
