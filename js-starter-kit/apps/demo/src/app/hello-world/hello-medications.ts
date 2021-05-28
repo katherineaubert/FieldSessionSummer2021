@@ -81,32 +81,29 @@ const userDictionary: CollectionDictionary = {
 };
 
 
-//Homepage: User Logs In
-export async function userLogin(userName: string, password: string) {
+//Homepage: User Creates Account. Temporarily out of scope.
+export async function userCreateAccount(userName: string, password: string) {
 
-    cb('\n'
-      + '--------------------------------------------------------------\n'
-      + 'Burst Chain Client - Hello Medications Demo\n'
-      + 'Copyright (c) 2015-2021 BurstIQ, Inc.\n'
-      + '--------------------------------------------------------------\n')
+  cb('\n'
+    + '--------------------------------------------------------------\n'
+    + 'Burst Chain Client - Hello Medications Demo\n'
+    + 'Copyright (c) 2015-2021 BurstIQ, Inc.\n'
+    + '--------------------------------------------------------------\n')
 
-  
+
 }
 
 
 let privateIdUser = null;
 let publicIdUser = null;
 
+//need to test this function once again using postman
 export async function getIdPair (userEmail) {
-  //TODO fix the API query to see if we find the user based off the email and get their private id, otherwise gen a new id pair
-  let tql = `WHERE asset.email = ${userEmail}`;
-  let assets: Asset[] = await chainClient.query(medicationsDictionary.collection, privateIdUser, tql);
 
-  if (!privateIdUser) {
-    privateIdUser = await chainClient.genPrivateId();
-  }
-
+  const tql = `SELECT asset.private_id FROM RemedichainUsers WHERE asset.user_email = ${userEmail}`;
+  privateIdUser = await chainClient.query(medicationsDictionary.collection, privateIdInventory, tql);
   publicIdUser = await chainClient.getPublicId(privateIdUser);
+
 }
 
 
@@ -117,7 +114,7 @@ export async function addDonation (drugName, dose, quantity){
     dose: dose,
     qty_remaining: quantity
   };
-  
+
   const assetMetadata = {
     loaded_by: 'hello medications demo'
   };
@@ -133,7 +130,7 @@ export async function transferToInventory (asset) {
   //TODO
 }
 
-//called when a pharmacist user clicks the button to approve medications for inventory 
+//called when a pharmacist user clicks the button to approve medications for inventory
 export async function pharmacistApproval (asset) {
   //TODO
 }
