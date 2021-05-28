@@ -104,8 +104,8 @@ export class AppElement extends CustomElement {
       })
       // using spred operator creates a linting error
       // this would be "addDonation"
-      getIdPair("johndoenor@gmail.com")
-      addDonation(this.inputValues[0], this.inputValues[1], this.inputValues[2])
+      getIdPair("johndoenor@gmail.com", this.addLine.bind(this))
+      addDonation(this.inputValues[0], this.inputValues[1], this.inputValues[2], this.addLine.bind(this))
     }
     console.log("Hey there!")
   }

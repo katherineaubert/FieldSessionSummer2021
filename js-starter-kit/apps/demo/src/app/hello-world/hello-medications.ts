@@ -99,7 +99,7 @@ let privateIdUser = null;
 let publicIdUser = null;
 
 //need to test this function once again using postman
-export async function getIdPair (userEmail) {
+export async function getIdPair (userEmail, cb = log) {
 
   const tql = `SELECT asset.private_id FROM RemedichainUsers WHERE asset.user_email = ${userEmail}`;
   let userAssets = await chainClient.query(medicationsDictionary.collection, privateIdInventory, tql);
@@ -110,7 +110,7 @@ export async function getIdPair (userEmail) {
 
 
 //create an asset on the medications blockchain, called when the donation form is filled out
-export async function addDonation (drugName, dose, quantity){
+export async function addDonation (drugName, dose, quantity, cb = log){
   const asset = {
     name: drugName,
     dose: dose,
