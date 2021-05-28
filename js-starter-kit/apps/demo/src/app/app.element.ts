@@ -1,7 +1,7 @@
 // imports for css
 import './app.element.scss';
 import { CustomElement } from './custom-element'
-import { addDonation } from './hello-world/hello-medications'
+import { addDonation, getIdPair } from './hello-world/hello-medications'
 
 export class AppElement extends CustomElement {
 
@@ -104,8 +104,10 @@ export class AppElement extends CustomElement {
       })
       // using spred operator creates a linting error
       // this would be "addDonation"
+      getIdPair("johndoenor@gmail.com")
       addDonation(this.inputValues[0], this.inputValues[1], this.inputValues[2])
     }
+    console.log("Hey there!")
   }
 
   connectedCallback() {
