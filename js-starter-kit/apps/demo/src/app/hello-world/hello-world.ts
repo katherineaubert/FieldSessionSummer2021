@@ -23,7 +23,7 @@ export async function demo(clientName: string, userName: string, password: strin
   cb('STEP 1 - Setup the dictionary for a chain')
 
   const dictionary: CollectionDictionary = {
-    collection: 'Prescription',
+    collection: 'Medications',
 
     indexes: [{
       unique: true,
@@ -63,6 +63,7 @@ export async function demo(clientName: string, userName: string, password: strin
 
   // ------------------------------------------------------------------------
   // STEP 2 - get a private id
+  //  TODO-- User logs in w/ email/password, must link private ID to email
   //
   cb('STEP 2 - get a private id');
   if (!privateIdInventory) {
@@ -148,10 +149,10 @@ export async function demo(clientName: string, userName: string, password: strin
   
 //TODO create if statement logic for multiple donors/recipients (in case private/public dne)  
 //Create Donor ID pair
-  const donorPrivateId = 'ac1c850d653806cf';
+  const donorPrivateId = '8046fbe68954c257';
   const donorPublicId = await chainClient.getPublicId(donorPrivateId);
 //Create Recipient ID pair
-  const recipientPrivateId = '8046fbe68954c257';
+  const recipientPrivateId = 'ac1c850d653806cf';
   const recipientPublicId = await chainClient.getPublicId(recipientPrivateId);
 
   const transferResp = await chainClient.transferAsset(dictionary.collection, privateIdInventory, firstAssetId, [publicIdInventory],
@@ -181,7 +182,7 @@ export async function demo(clientName: string, userName: string, password: strin
   // STEP 12 - query via TQL
   //
   cb('STEP 12 - query via TQL');
-  tql = "SELECT asset.serial FROM Prescription WHERE asset.name = 'Glucose'";
+  tql = "SELECT asset.serial FROM Medications WHERE asset.name = 'Glucose'";
 
   assets = await chainClient.query(dictionary.collection, privateIdInventory, tql);
   cb(`TQL 2 ASSET:\n ${JSON.stringify(assets, undefined, 2)}`);

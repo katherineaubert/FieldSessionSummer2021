@@ -1,21 +1,5 @@
 Back end psuedocode
 
-// sets up clients
-  const chainClient = new BurstChainSDK(server, clientName);
-  const metadataClient = new MetadataSDK(server, userName, password);
-
-// function to create medication dictionary (inventory)
-function createMedicationDictionary() {
-    instantiate dictionary: {
-        set attributes to be NOT unique
-        set attibutes to be required
-        create pill name attribute
-        create dose attribute
-        create quantity attribute
-    }
-    save dictionary
-    }
-}
 
 // function to create an asset and add it to the donor's wallet
 function addDonation(name, dose, quantity) {
