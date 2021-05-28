@@ -1,23 +1,25 @@
-// imports for css
 import './app.element.scss';
 import { CustomElement } from './custom-element'
-import { addDonation } from './hello-world/hello-medications'
+import { demo } from './hello-world/hello-world'
+
 
 export class AppElement extends CustomElement {
+  public static observedAttributes = [];
 
-    // instance variables
-    css
-    inputForm: HTMLFormElement
-    inputKeys: string[] = ['drugName', 'dose', 'qty']
-    inputValues: string[]
-    lines: string[] // you made need an = [] at the end but maybe not im not sure
+  css
 
-    constructor() {
-        // inherits customElement
-        super()
-        this.attachShadow({ mode: 'open' })
-        this.css = `
-        <style>
+  inputForm: HTMLFormElement
+  inputNames: string[] = ['client', 'username', 'password', 'server', 'privateId']
+  inputValues: string[]
+
+  lines: string[] = []
+
+  constructor() {
+    super()
+    this.attachShadow({ mode: 'open' })
+
+    this.css = `
+      <style>
         details {
           border-radius: 4px;
           color: #333;
@@ -49,24 +51,32 @@ export class AppElement extends CustomElement {
     this.shadowRoot.innerHTML = `
       ${this.css}
       <header>
-        <h1>Test Donation Form</h1>
+        <h1>BurstIQ Burstchain Demo</h1>
       </header>
       <main>
         <form id="inputForm" class="inputs">
           <div>
-            <label for="drugName">Drug Name:</label>
-            <input type="text" id="drugName" name="drugName" required size="30">
+            <label for="client">Client:</label>
+            <input type="text" id="client" name="client" required size="30">
           </div>
           <div>
-            <label for="dose">Dose:</label>
-            <input type="text" id="dose" name="dose" required size="30">
+            <label for="username">Username:</label>
+            <input type="text" id="username" name="username" required size="30">
           </div>
           <div>
-            <label for="qty">Quantity:</label>
-            <input type="text" id="qty" name="qty" required size="30">
+            <label for="password">Password:</label>
+            <input type="password" id="password" name="password" required size="30">
           </div>
           <div>
-            <button id="donatePills" type="submit">Donate Pills</button>
+            <label for="server">Server:</label>
+            <input type="text" id="server" name="server" required size="30">
+          </div>
+          <div>
+            <label for="privateId">PrivateID:</label>
+            <input type="text" id="privateId" name="privateId" required size="30">
+          </div>
+          <div>
+            <button id="runDemo" type="submit">Run Demo</button>
           </div>
         </form>
 
@@ -76,10 +86,8 @@ export class AppElement extends CustomElement {
         </details>
       </main>
     `;
-            
-
-
   }
+
   init() {
     this.inputForm = this.shadowRoot.querySelector('#inputForm')
     const server = this.inputForm.elements.namedItem('server') as HTMLInputElement
@@ -98,13 +106,12 @@ export class AppElement extends CustomElement {
     console.log('Running Demo:');
     this.lines = []
     if (this.inputForm.checkValidity()) {
-      this.inputValues = this.inputKeys.map(name => {
+      this.inputValues = this.inputNames.map(name => {
         const elm = this.inputForm.elements.namedItem(name) as HTMLInputElement
         return elm.value
       })
       // using spred operator creates a linting error
-      // this would be "addDonation"
-      addDonation(this.inputValues[0], this.inputValues[1], this.inputValues[2])
+      demo(this.inputValues[0], this.inputValues[1], this.inputValues[2], this.inputValues[3], this.inputValues[4], this.addLine.bind(this))
     }
   }
 
@@ -115,4 +122,3 @@ export class AppElement extends CustomElement {
 }
 
 customElements.define('starter-kit-root', AppElement);
-

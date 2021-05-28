@@ -1,7 +1,7 @@
 // imports for css
 import './app.element.scss';
 import { CustomElement } from './custom-element'
-import { demo } from './hello-world/hello-world'
+import { addDonation } from './hello-world/hello-medications'
 
 export class AppElement extends CustomElement {
 
@@ -83,7 +83,7 @@ export class AppElement extends CustomElement {
   init() {
     this.inputForm = this.shadowRoot.querySelector('#inputForm')
     const server = this.inputForm.elements.namedItem('server') as HTMLInputElement
-    server.value = 'http://localhost:4200'
+    server.value = 'https://testnet.burstiq.com'
     this.inputForm.addEventListener('submit', e => e.preventDefault())
     this.shadowRoot.querySelector('#runDemo').addEventListener('click', this.runDemo.bind(this))
   }
@@ -103,8 +103,8 @@ export class AppElement extends CustomElement {
         return elm.value
       })
       // using spred operator creates a linting error
-      // this would be "helloPerscription"
-      demo(this.inputValues[0], this.inputValues[1], this.inputValues[2])
+      // this would be "addDonation"
+      addDonation(this.inputValues[0], this.inputValues[1], this.inputValues[2])
     }
   }
 
