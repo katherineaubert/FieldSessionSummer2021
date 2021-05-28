@@ -60,23 +60,28 @@ const medicationsDictionary: CollectionDictionary = {
 };
 
 //create an object representing the user dictionary
-const userDictionary: CollectionDictionary = {
+const usersDictionary: CollectionDictionary = {
   collection: 'RemedichainUsers',
 
   indexes: [{
     unique: true,
-    attributes: ['email']
+    attributes: ['user_email']
   }],
 
   rootnode: {
     attributes: [{
-      name: 'email',
+      name: 'user_name',
+    }, {
+      name: 'user_email',
       required: true
     }, {
-      name: 'name'
+      name: 'user_phone'
     }, {
-      name: 'privateId'
-    }]
+      name: 'private_id'
+    }, {
+      name: 'prescriptions'
+    }
+    ]
   }
 };
 
@@ -100,9 +105,8 @@ let publicIdUser = null;
 
 //need to test this function once again using postman
 export async function getIdPair (userEmail) {
-
   const tql = `SELECT asset.private_id FROM RemedichainUsers WHERE asset.user_email = ${userEmail}`;
-  let userAssets = await chainClient.query(medicationsDictionary.collection, privateIdInventory, tql);
+  let userAssets = await chainClient.query(usersDictionary.collection, privateIdInventory, tql);
   privateIdUser = userAssets[0].asset.private_id;
   publicIdUser = await chainClient.getPublicId(privateIdUser);
 
@@ -127,18 +131,47 @@ export async function addDonation (drugName, dose, quantity){
   return firstAssetId;
 }
 
+
+
+
+
 //transfer ownership of a drug from a donor to the inventory
-export async function transferToInventory (asset) {
-  //TODO
+export async function transferToInventory (assetId) {
+  
+  const transferResp = await chainClient.transferAsset(medicationsDictionary.collection, privateIdInventory, assetId, [publicIdUser],
+    [publicIdInventory], publicIdInventory);
+
+  //the original owner should NO longer be able to see this asset
+  let resp = await chainClient.getLatestAsset(medicationsDictionary.collection, privateIdUser, assetId);
+
+  //the new owner should be able to see this asset
+  resp = await chainClient.getLatestAsset(medicationsDictionary.collection, privateIdInventory, assetId);
 }
 
-//called when a pharmacist user clicks the button to approve medications for inventory
-export async function pharmacistApproval (asset) {
-  //TODO
-}
+
+
+
 
 //transfer ownership of a drug from the inventory to a recipient
-export async function transferFromInventory (asset) {
+export async function transferFromInventory (assetId) {
+
+  const transferResp = await chainClient.transferAsset(medicationsDictionary.collection, privateIdInventory, assetId, [publicIdInventory],
+    [publicIdUser], publicIdUser);
+
+  //the original owner should NO longer be able to see this asset
+  let resp = await chainClient.getLatestAsset(medicationsDictionary.collection, privateIdInventory, assetId);
+
+  //the new owner should be able to see this asset
+  resp = await chainClient.getLatestAsset(medicationsDictionary.collection, privateIdUser, assetId);
+}
+
+
+
+
+
+
+//called when a pharmacist user clicks the button to approve medications for inventory
+export async function pharmacistApproval (assetId) {
   //TODO
 }
 
