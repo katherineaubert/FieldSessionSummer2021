@@ -5,7 +5,6 @@ import {Asset} from "../http/burstchain-interfaces";
 
 //rename console.log() to cb() for faster typing
 const log = (line) => console.log(line)
-const cb = log;
 
 //set up global variables
 const clientName = 'mines_summer';
@@ -110,8 +109,10 @@ export async function getIdPair (userEmail) {
   privateIdUser = userAssets[0].asset.private_id;
   publicIdUser = await chainClient.getPublicId(privateIdUser);
 
+  cb(privateIdInventory + " " + publicIdInventory + " \n" + privateIdUser + " " + publicIdUser);
 }
 
+getIdPair("johndoenor@gmail.com")
 
 //create an asset on the medications blockchain, called when the donation form is filled out
 export async function addDonation (drugName, dose, quantity){
