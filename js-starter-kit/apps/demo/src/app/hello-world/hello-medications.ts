@@ -94,6 +94,7 @@ export async function userCreateAccount(userName: string, password: string) {
 }
 
 
+//TODO delete this hard-coded value for the donor private ID
 let privateIdUser = null;
 let publicIdUser = null;
 
@@ -101,7 +102,8 @@ let publicIdUser = null;
 export async function getIdPair (userEmail) {
 
   const tql = `SELECT asset.private_id FROM RemedichainUsers WHERE asset.user_email = ${userEmail}`;
-  privateIdUser = await chainClient.query(medicationsDictionary.collection, privateIdInventory, tql);
+  let userAssets = await chainClient.query(medicationsDictionary.collection, privateIdInventory, tql);
+  privateIdUser = userAssets[0].asset.private_id;
   publicIdUser = await chainClient.getPublicId(privateIdUser);
 
 }
