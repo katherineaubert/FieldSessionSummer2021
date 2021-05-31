@@ -1,7 +1,10 @@
 // imports for css
 import './app.element.scss';
 import { CustomElement } from './custom-element'
-import { addDonation, getIdPair } from './hello-world/hello-medications'
+import { medicationsDictionary, userDictionary } from './hello-world/dictionary-formats';
+import './hello-world/hello-medications'
+import { addDonation, getUserPrivateId, getUserPublicId } from './hello-world/hello-medications';
+import { BurstChainSDK } from './http/burst-server-endpoints';
 
 export class AppElement extends CustomElement {
 
@@ -103,9 +106,30 @@ export class AppElement extends CustomElement {
         return elm.value
       })
       // using spred operator creates a linting error
-      // this would be "addDonation"
-      getIdPair("johndoenor@gmail.com", this.addLine.bind(this))
-      addDonation(this.inputValues[0], this.inputValues[1], this.inputValues[2], this.addLine.bind(this))
+      
+      // This is the start of what has been brought up a level from hello-medications.ts
+      
+      //set up global variables
+      const clientName = 'mines_summer';
+      const server = 'https://testnet.burstiq.com'
+
+      // create the burst chain client
+      const chainClient = new BurstChainSDK(server, clientName);
+      
+      //set inventory ID Pair
+      const privateIdInventory = 'c50188204aecb09d';
+      let publicIdInventory;
+      async function getInventoryPublicId () {
+        publicIdInventory = await chainClient.getPublicId(privateIdInventory);
+      }
+
+      //get user ID pair from email
+//TODO replace hard-coded email value
+      let privateIdUser = getUserPrivateId("johndoenor@gmail.com", chainClient, medicationsDictionary, privateIdInventory, publicIdInventory, this.addLine.bind(this))
+      let publicIdUser = getUserPublicId(chainClient, privateIdUser, this.addLine.bind(this))
+
+      //Add the user donation to the blockchain
+      addDonation(this.inputValues[0], this.inputValues[1], this.inputValues[2], chainClient, medicationsDictionary, privateIdUser, publicIdUser, this.addLine.bind(this))
     }
     console.log("Hey there!")
   }

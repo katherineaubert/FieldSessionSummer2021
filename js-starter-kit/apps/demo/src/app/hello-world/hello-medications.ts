@@ -6,84 +6,6 @@ import {Asset} from "../http/burstchain-interfaces";
 //rename console.log() to cb() for faster typing
 const log = (line) => console.log(line)
 
-//set up global variables
-const clientName = 'mines_summer';
-const server = 'https://testnet.burstiq.com'
-
-// create the burst chain client
-const chainClient = new BurstChainSDK(server, clientName);
-
-//set inventory ID Pair
-const privateIdInventory = 'c50188204aecb09d';
-let publicIdInventory;
-async function getInventoryPublicId () {
-  publicIdInventory = await chainClient.getPublicId(privateIdInventory);
-}
-
-
-//create an object representing the medications dictionary
-const medicationsDictionary: CollectionDictionary = {
-  collection: 'Medications',
-
-  indexes: [{
-    unique: true,
-    attributes: ['serial']
-  }],
-
-  rootnode: {
-    attributes: [{
-      name: 'drug_name',
-      required: true
-    }, {
-      name: 'dose',
-      required: true
-    }, {
-      name: 'quantity',
-      required: true
-    }, {
-      name: 'expiration_date'
-    }, {
-      name: 'NDC'
-    }, {
-      name: 'form'
-    }, {
-      name: 'manufacturer'
-    }, {
-      name: 'lot'
-    }, {
-      name: 'serial'
-    }, {
-      name: 'monetary_value'
-    }]
-  }
-};
-
-//create an object representing the user dictionary
-const userDictionary: CollectionDictionary = {
-  collection: 'RemedichainUsers',
-
-  indexes: [{
-    unique: true,
-    attributes: ['email']
-  }],
-
-  rootnode: {
-    attributes: [{
-      name: 'user_name'
-    }, {
-      name: 'user_email',
-      required: true
-    }, {
-      name: 'user_phone'
-    }, {
-      name: 'private_id'
-    }, {
-      name: 'prescriptions'
-    }]
-  }
-};
-
-
 //Homepage: User Creates Account. Temporarily out of scope.
 export async function userCreateAccount(userName: string, password: string, cb = log) {
 
@@ -96,23 +18,25 @@ export async function userCreateAccount(userName: string, password: string, cb =
 
 }
 
-
-//TODO delete this hard-coded value for the donor private ID
-let privateIdUser = null;
-let publicIdUser = null;
-
-//need to test this function once again using postman
-export async function getIdPair (userEmail, cb = log) {
+//Get the user's private Id based on their email in the user blockchain
+export async function getUserPrivateId (userEmail, chainClient, medicationsDictionary, privateIdInventory, publicIdInventory, cb = log) {
   const tql = `SELECT asset.private_id FROM RemedichainUsers WHERE asset.user_email = ${userEmail}`;
   let userAssets = await chainClient.query(medicationsDictionary.collection, privateIdInventory, tql);
-  privateIdUser = userAssets[0].asset.private_id;
-  publicIdUser = await chainClient.getPublicId(privateIdUser);
+  const privateIdUser = userAssets[0].asset.private_id;
 
-  cb(privateIdInventory + " " + publicIdInventory + " \n" + privateIdUser + " " + publicIdUser);
+  return privateIdUser
 }
 
+//Return the user's public id
+export async function getUserPublicId (chainClient, privateIdUser, cb = log) {
+  let publicIdUser = await chainClient.getPublicId(privateIdUser);
+
+  return publicIdUser
+}
+
+
 //create an asset on the medications blockchain, called when the donation form is filled out
-export async function addDonation (drug_name, dose, quantity, cb = log){
+export async function addDonation (drug_name, dose, quantity, chainClient, medicationsDictionary, privateIdUser, publicIdUser, cb = log){
   const asset = {
     drug_name: drug_name,
     dose: dose,
