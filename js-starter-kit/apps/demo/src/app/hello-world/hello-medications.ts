@@ -1,6 +1,4 @@
 /* eslint-disable @typescript-eslint/camelcase */
-import {BurstChainSDK, MetadataSDK} from "../http/burst-server-endpoints";
-import {CollectionDictionary} from "../http/metadata-interfaces";
 import {Asset} from "../http/burstchain-interfaces";
 
 //rename console.log() to cb() for faster typing
@@ -21,7 +19,7 @@ export async function userCreateAccount(userName: string, password: string, cb =
 //Get the user's private Id based on their email in the user blockchain
 export async function getUserPrivateId (userEmail, chainClient, medicationsDictionary, privateIdInventory, publicIdInventory, cb = log) {
   const tql = `SELECT asset.private_id FROM RemedichainUsers WHERE asset.user_email = ${userEmail}`;
-  let userAssets = await chainClient.query(medicationsDictionary.collection, privateIdInventory, tql);
+  let userAssets: Asset[] = await chainClient.query(medicationsDictionary.collection, privateIdInventory, tql);
   const privateIdUser = userAssets[0].asset.private_id;
 
   return privateIdUser
