@@ -54,24 +54,46 @@ export async function addDonation (drug_name, dose, quantity, chainClient, medic
 }
 
 //transfer ownership of a drug from a donor to the inventory
-export async function transferToInventory (asset) {
-  //TODO
+export async function transferToInventory (assetId, chainClient, medicationsDictionary, privateIdInventory, publicIdInventory, privateIdUser, publicIdUser) {
+  const transferResp = await chainClient.transferAsset(medicationsDictionary.collection, privateIdInventory, assetId, [publicIdUser],
+    [publicIdInventory], publicIdInventory);
+  //the original owner should NO longer be able to see this asset
+  let resp = await chainClient.getLatestAsset(medicationsDictionary.collection, privateIdUser, assetId);
+  //the new owner should be able to see this asset
+  resp = await chainClient.getLatestAsset(medicationsDictionary.collection, privateIdInventory, assetId);
 }
+
+
+
 
 //called when a pharmacist user clicks the button to approve medications for inventory
 export async function pharmacistApproval (asset) {
   //TODO
 }
 
+
+
+
 //transfer ownership of a drug from the inventory to a recipient
-export async function transferFromInventory (asset) {
-  //TODO
+export async function transferFromInventory (assetId, chainClient, medicationsDictionary, privateIdInventory, publicIdInventory, privateIdUser, publicIdUser) {
+  const transferResp = await chainClient.transferAsset(medicationsDictionary.collection, privateIdInventory, assetId, [publicIdInventory],
+    [publicIdUser], publicIdUser);
+  //the original owner should NO longer be able to see this asset
+  let resp = await chainClient.getLatestAsset(medicationsDictionary.collection, privateIdInventory, assetId);
+  //the new owner should be able to see this asset
+  resp = await chainClient.getLatestAsset(medicationsDictionary.collection, privateIdUser, assetId);
 }
+
+
+
 
 //get all available items in the inventory and deliver to midlevel code for display to main inventory page
 export async function getAvailableInventory () {
   //TODO
 }
+
+
+
 
 //get all pending items in the inventory and deliver to midlevel code for display to pharmacist inventory page
 export async function getPendingInventory () {
