@@ -16,6 +16,12 @@ export async function userCreateAccount(userName: string, password: string, cb =
 
 }
 
+export async function getInventoryPublicId (chainClient, privateIdInventory) {
+  let publicIdInventory = await chainClient.getPublicId(privateIdInventory);
+  return publicIdInventory;
+}
+
+
 //Get the user's private Id based on their email in the user blockchain
 export async function getUserPrivateId (userEmail, chainClient, medicationsDictionary, privateIdInventory, publicIdInventory, cb = log) {
   const tql = `SELECT asset.private_id FROM RemedichainUsers WHERE asset.user_email = ${userEmail}`;

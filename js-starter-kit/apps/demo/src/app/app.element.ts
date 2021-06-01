@@ -3,7 +3,7 @@ import './app.element.scss';
 import { CustomElement } from './custom-element'
 import { medicationsDictionary, userDictionary } from './hello-world/dictionary-formats';
 import './hello-world/hello-medications'
-import { addDonation, getUserPrivateId, getUserPublicId } from './hello-world/hello-medications';
+import { addDonation, getUserPrivateId, getUserPublicId, getInventoryPublicId } from './hello-world/hello-medications';
 import { BurstChainSDK } from './http/burst-server-endpoints';
 
 export class AppElement extends CustomElement {
@@ -118,10 +118,8 @@ export class AppElement extends CustomElement {
       
       //set inventory ID Pair
       const privateIdInventory = 'c50188204aecb09d';
-      let publicIdInventory;
-      async function getInventoryPublicId () {
-        publicIdInventory = await chainClient.getPublicId(privateIdInventory);
-      }
+      let publicIdInventory = getInventoryPublicId(chainClient, privateIdInventory);
+      
 
       //get user ID pair from email
 //TODO replace hard-coded email value
@@ -141,4 +139,3 @@ export class AppElement extends CustomElement {
 }
 
 customElements.define('starter-kit-root', AppElement);
-
