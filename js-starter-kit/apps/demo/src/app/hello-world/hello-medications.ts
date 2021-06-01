@@ -1,8 +1,43 @@
 /* eslint-disable @typescript-eslint/camelcase */
 import {Asset} from "../http/burstchain-interfaces";
+import { BurstChainSDK } from '../http/burst-server-endpoints';
+import { medicationsDictionary, userDictionary } from '../hello-world/dictionary-formats';
 
 //rename console.log() to cb() for faster typing
 const log = (line) => console.log(line)
+
+
+
+export async function demo(drugName: string, dose: string, quantity: string, userEmail: string, cb = log) {
+  
+  cb('Demo function has been accessed!');
+
+  // create the burst chain client as a global variable
+  const chainClient = new BurstChainSDK('https://testnet.burstiq.com', 'mines_summer');
+  
+  cb('chainClient created')
+
+  //set inventory ID Pair
+  const privateIdInventory = 'c50188204aecb09d';
+  let publicIdInventory = getInventoryPublicId(chainClient, privateIdInventory);
+  
+  cb('inventory id pair created')
+
+  //get user ID pair from email
+  let privateIdUser = getUserPrivateId(userEmail, chainClient, medicationsDictionary, privateIdInventory, publicIdInventory)
+  let publicIdUser = getUserPublicId(chainClient, privateIdUser)
+
+  cb('user id pair created')
+
+  //Add the user donation to the blockchain
+  addDonation(drugName, dose, quantity, chainClient, medicationsDictionary, privateIdUser, publicIdUser)
+
+  cb('finally made it through the addDonation function')
+}
+
+
+
+
 
 //Homepage: User Creates Account. Temporarily out of scope.
 export async function userCreateAccount(userName: string, password: string, cb = log) {
@@ -23,8 +58,8 @@ export async function getInventoryPublicId (chainClient, privateIdInventory) {
 
 
 //Get the user's private Id based on their email in the user blockchain
-export async function getUserPrivateId (userEmail, chainClient, medicationsDictionary, privateIdInventory, publicIdInventory, cb = log) {
-  const tql = `SELECT asset.private_id FROM RemedichainUsers WHERE asset.user_email = ${userEmail}`;
+export async function getUserPrivateId (userEmail, chainClient, medicationsDictionary, privateIdInventory, publicIdInventory) {
+  const tql = `SELECT asset.private_id FROM RemedichainUsers WHERE asset.user_email = '${userEmail}'`;
   let userAssets: Asset[] = await chainClient.query(medicationsDictionary.collection, privateIdInventory, tql);
   const privateIdUser = userAssets[0].asset.private_id;
 
@@ -32,7 +67,7 @@ export async function getUserPrivateId (userEmail, chainClient, medicationsDicti
 }
 
 //Return the user's public id
-export async function getUserPublicId (chainClient, privateIdUser, cb = log) {
+export async function getUserPublicId (chainClient, privateIdUser) {
   let publicIdUser = await chainClient.getPublicId(privateIdUser);
 
   return publicIdUser
@@ -40,7 +75,7 @@ export async function getUserPublicId (chainClient, privateIdUser, cb = log) {
 
 
 //create an asset on the medications blockchain, called when the donation form is filled out
-export async function addDonation (drug_name, dose, quantity, chainClient, medicationsDictionary, privateIdUser, publicIdUser, cb = log){
+export async function addDonation (drug_name, dose, quantity, chainClient, medicationsDictionary, privateIdUser, publicIdUser){
   const asset = {
     drug_name: drug_name,
     dose: dose,

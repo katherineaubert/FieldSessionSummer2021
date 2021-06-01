@@ -1,19 +1,18 @@
 // imports for css
 import './app.element.scss';
 import { CustomElement } from './custom-element'
-import { medicationsDictionary, userDictionary } from './hello-world/dictionary-formats';
-import './hello-world/hello-medications'
-import { addDonation, getUserPrivateId, getUserPublicId, getInventoryPublicId } from './hello-world/hello-medications';
-import { BurstChainSDK } from './http/burst-server-endpoints';
+import { demo } from './hello-world/hello-medications'
 
 export class AppElement extends CustomElement {
+  public static observedAttributes = [];
 
     // instance variables
     css
+
     inputForm: HTMLFormElement
     inputKeys: string[] = ['drugName', 'dose', 'qty']
     inputValues: string[]
-    lines: string[] // you made need an = [] at the end but maybe not im not sure
+    lines: string[] = [] // you may need an = [] at the end but maybe not im not sure
 
     constructor() {
         // inherits customElement
@@ -69,7 +68,7 @@ export class AppElement extends CustomElement {
             <input type="text" id="qty" name="qty" required size="30">
           </div>
           <div>
-            <button id="donatePills" type="submit">Donate Pills</button>
+            <button id="runDemo" type="submit">Donate Pills</button>
           </div>
         </form>
 
@@ -85,8 +84,8 @@ export class AppElement extends CustomElement {
   }
   init() {
     this.inputForm = this.shadowRoot.querySelector('#inputForm')
-    const server = this.inputForm.elements.namedItem('server') as HTMLInputElement
-    server.value = 'https://testnet.burstiq.com'
+    // const server = this.inputForm.elements.namedItem('server') as HTMLInputElement
+    // server.value = 'https://testnet.burstiq.com'
     this.inputForm.addEventListener('submit', e => e.preventDefault())
     this.shadowRoot.querySelector('#runDemo').addEventListener('click', this.runDemo.bind(this))
   }
@@ -107,29 +106,13 @@ export class AppElement extends CustomElement {
       })
       // using spred operator creates a linting error
       
-      // This is the start of what has been brought up a level from hello-medications.ts
       
-      //set up global variables
-      const clientName = 'mines_summer';
-      const server = 'https://testnet.burstiq.com'
+      demo(this.inputValues[0], this.inputValues[1], this.inputValues[2], "johndoenor@gmail.com", this.addLine.bind(this));
+     
 
-      // create the burst chain client
-      const chainClient = new BurstChainSDK(server, clientName);
-      
-      //set inventory ID Pair
-      const privateIdInventory = 'c50188204aecb09d';
-      let publicIdInventory = getInventoryPublicId(chainClient, privateIdInventory);
-      
-
-      //get user ID pair from email
-//TODO replace hard-coded email value
-      let privateIdUser = getUserPrivateId("johndoenor@gmail.com", chainClient, medicationsDictionary, privateIdInventory, publicIdInventory, this.addLine.bind(this))
-      let publicIdUser = getUserPublicId(chainClient, privateIdUser, this.addLine.bind(this))
-
-      //Add the user donation to the blockchain
-      addDonation(this.inputValues[0], this.inputValues[1], this.inputValues[2], chainClient, medicationsDictionary, privateIdUser, publicIdUser, this.addLine.bind(this))
+    } else {
+      console.log("If statement has failed.")
     }
-    console.log("Hey there!")
   }
 
   connectedCallback() {
