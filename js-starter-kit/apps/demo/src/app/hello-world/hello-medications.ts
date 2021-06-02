@@ -3,6 +3,7 @@ import {Asset} from "../http/burstchain-interfaces";
 import { BurstChainSDK } from '../http/burst-server-endpoints';
 import { medicationsDictionary, userDictionary } from '../hello-world/dictionary-formats';
 import { callbackify } from "util";
+import { parse } from "querystring";
 
 //rename console.log() to cb() for faster typing
 const log = (line) => console.log(line)
@@ -121,8 +122,14 @@ export async function transferFromInventory (assetId, chainClient, medicationsDi
 
 
 //get all available items in the inventory and deliver to midlevel code for display to main inventory page
-export async function getAvailableInventory () {
-  //TODO
+export async function getAvailableInventory (chainClient, privateIdInventory) {
+  const tqlPrintInv = `SELECT asset.private_id FROM Medications`;
+  let inventory: Asset[] = await chainClient.query(userDictionary.collection, privateIdInventory, tqlPrintInv);
+  for (var i = 0; i < inventory.length; i++) {
+    console.log(JSON.parse(inventory[i].asset)); // i literally have no idea if .asset is right but
+
+
+  }
 }
 
 
