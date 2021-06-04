@@ -86,7 +86,7 @@ export async function storeDataFromPrescriptionRequest(inputValues: string[], us
   let asset = userAssets[0];
 
   //Get the id of the user asset
-  let firstAsset = asset.asset_id;
+  let firstAssetId = asset.asset_id;
   //Update the user to add this prescription:
   asset.asset.prescriptions.push(prescription);
 
