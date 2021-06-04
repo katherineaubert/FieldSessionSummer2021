@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Testing</title>
+    <!-- CSS FOR STYLING THE PAGE -->
+    <style>
+    </style>
+    <!-- BOOTSTRAP CSS AND PLUGINS-->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+    <!-- Google fonts-->
+    <link href="https://fonts.googleapis.com/css?family=Merriweather+Sans:400,700" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css?family=Merriweather:400,300,300italic,400italic,700,700italic" rel="stylesheet" type="text/css" />
+    <!-- SimpleLightbox plugin CSS-->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/SimpleLightbox/2.1.0/simpleLightbox.min.css" rel="stylesheet" />
+    <!-- Core theme CSS (includes Bootstrap)-->
+    <link href="css/styles.css" rel="stylesheet" />
+</head>
+
+<body>
+    <h1>Orders</h1>
+
+    <table class="table table-striped">
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>Customer</th>
+        <th>Status</th>
+    </tr>
+    </thead>
+    <tbody>
+        <tr data-toggle="modal" data-id="1" data-target="#orderModal">
+            <td>1</td>
+            <td>24234234</td>
+            <td>A</td>
+        </tr>
+        <tr data-toggle="modal" data-id="2" data-target="#orderModal">
+            <td>2</td>
+            <td>24234234</td>
+            <td>A</td>
+        </tr>
+        <tr data-toggle="modal" data-id="3" data-target="#orderModal">
+            <td>3</td>
+            <td>24234234</td>
+            <td>A</td>
+        </tr>
+    </tbody>
+</table>
+    <div id="orderModal" class="modal hide fade" role="dialog" aria-labelledby="orderModalLabel" aria-hidden="true">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
+            <h3>Order</h3>
+
+        </div>
+        <div id="orderDetails" class="modal-body"></div>
+        <div id="orderItems" class="modal-body"></div>
+        <div class="modal-footer">
+            <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
+        </div>
+    </div>
+
+    <script>
+        $(function () {
+            $('#orderModal').modal({
+                keyboard: true,
+                backdrop: "static",
+                show: false,
+
+            }).on('show', function () {
+                var getIdFromRow = $(event.target).closest('tr').data('id');
+                //make your ajax call populate items or what even you need
+                $(this).find('#orderDetails').html($('<b> Order Id selected: ' + getIdFromRow + '</b>'))
+            });
+        });
+    </script>
+</body>
+</html>
