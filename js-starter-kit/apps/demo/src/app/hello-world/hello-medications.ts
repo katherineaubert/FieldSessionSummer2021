@@ -91,7 +91,7 @@ export async function storeDataFromPrescriptionRequest(inputValues: string[], us
   asset.asset.prescriptions.push(prescription);
 
   let tmpId = await chainClient.updateAsset(userDictionary.collection, privateIdInventory, firstAssetId, asset, null);
-  cb(`Asset updated ${tmpId} for this demo`);
+  cb(`We have passed Line 94. ${inputValues[9]}, ${inputValues[23]}`);
 }
 
 
@@ -194,14 +194,19 @@ export async function transferFromInventory (assetId, chainClient, medicationsDi
 export async function getAvailableInventory (chainClient, privateIdInventory) {
   const tqlPrintInv = `SELECT asset.name FROM Medications`;
   let inventory: Asset[] = await chainClient.query(userDictionary.collection, privateIdInventory, tqlPrintInv);
+  var arrOfInventory = Array.from(Array(inventory.length), () => new Array(3));
   for (var i = 0; i < inventory.length; i++) {
     if(inventory[i].asset.status == "Approved") {
-      console.log(JSON.parse(inventory[i].asset)); 
+      arrOfInventory[i][0] = inventory[i].asset.drug_name;
+      arrOfInventory[i][1] = inventory[i].asset.dose;
+      arrOfInventory[i][2] = inventory[i].asset.quantity;
     }
     
 
 
   }
+  // returns a 2D JS array, where each row is a med, and each column is a name/dose/quantity in that order
+  return arrOfInventory;
 }
 
 
