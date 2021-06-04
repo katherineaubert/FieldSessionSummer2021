@@ -104,17 +104,6 @@ export async function storeDataFromPrescriptionRequest(inputValues: string[], us
  *These are helper functions used in the wrapper functions above.
  */
 
-//Homepage: User Creates Account. Temporarily out of scope.
-export async function userCreateAccount(userName: string, password: string, cb = log) {
-
-  cb('\n'
-    + '--------------------------------------------------------------\n'
-    + 'Burst Chain Client - Hello Medications Demo\n'
-    + 'Copyright (c) 2015-2021 BurstIQ, Inc.\n'
-    + '--------------------------------------------------------------\n')
-
-
-}
 
 export async function getInventoryPublicId (chainClient, privateIdInventory) {
   let publicIdInventory = await chainClient.getPublicId(privateIdInventory);
@@ -212,9 +201,22 @@ export async function getAvailableInventory (chainClient, privateIdInventory) {
 }
 
 
-
-
 //get all pending items in the inventory and deliver to midlevel code for display to pharmacist inventory page
 export async function getPendingInventory () {
   //TODO
 }
+
+
+
+//Homepage: User Creates Account. Temporarily out of scope.
+export async function userCreateAccount(userName: string, password: string, cb = log) {
+
+  cb('\n'
+    + '--------------------------------------------------------------\n'
+    + 'Burst Chain Client - Hello Medications Demo\n'
+    + 'Copyright (c) 2015-2021 BurstIQ, Inc.\n'
+    + '--------------------------------------------------------------\n')
+
+
+}
+
