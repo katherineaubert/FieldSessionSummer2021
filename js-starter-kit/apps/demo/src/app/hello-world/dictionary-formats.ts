@@ -5,10 +5,10 @@ import {CollectionDictionary} from "../http/metadata-interfaces";
 export const medicationsDictionary: CollectionDictionary = {
   collection: 'Medications',
 
-  indexes: [{
-    unique: true,
-    attributes: ['serial']
-  }],
+  // indexes: [{
+  //   unique: true,
+  //   attributes: ['RX']
+  // }],
 
   rootnode: {
     attributes: [{
@@ -60,7 +60,7 @@ export const userDictionary: CollectionDictionary = {
     }, {
       name: 'private_id'
     }, {
-      name: 'prescriptions'
+      name: 'prescriptions' 
     }]
   }
 };

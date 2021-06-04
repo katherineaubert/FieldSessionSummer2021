@@ -73,8 +73,25 @@ export async function storeDataFromPrescriptionRequest(inputValues: string[], us
     status: "Pending"
   };
 
+  // create the burst chain client as a global variable
+  const chainClient = new BurstChainSDK('https://testnet.burstiq.com', 'mines_summer');
 
-  //TODO
+  //set inventory ID Pair
+  const privateIdInventory = 'c50188204aecb09d';
+  let publicIdInventory = await getInventoryPublicId(chainClient, privateIdInventory);
+ 
+  //Get the user asset from their email
+  const tql = `SELECT asset FROM RemedichainUsers WHERE asset.user_email = '${userEmail}'`;
+  let userAssets: Asset[] = await chainClient.query(userDictionary.collection, privateIdInventory, tql);
+  let asset = userAssets[0];
+
+  //Get the id of the user asset
+  let firstAssetId = asset.asset_id;
+  //Update the user to add this prescription:
+  asset.asset.prescriptions.push(prescription);
+
+  let tmpId = await chainClient.updateAsset(userDictionary.collection, privateIdInventory, firstAssetId, asset, null);
+  cb(`Asset updated ${tmpId} for this demo`);
 }
 
 
@@ -175,10 +192,13 @@ export async function transferFromInventory (assetId, chainClient, medicationsDi
 
 //get all available items in the inventory and deliver to midlevel code for display to main inventory page
 export async function getAvailableInventory (chainClient, privateIdInventory) {
-  const tqlPrintInv = `SELECT asset.private_id FROM Medications`;
+  const tqlPrintInv = `SELECT asset.name FROM Medications`;
   let inventory: Asset[] = await chainClient.query(userDictionary.collection, privateIdInventory, tqlPrintInv);
   for (var i = 0; i < inventory.length; i++) {
-    console.log(JSON.parse(inventory[i].asset)); // i literally have no idea if .asset is right but
+    if(inventory[i].asset.status == "Approved") {
+      console.log(JSON.parse(inventory[i].asset)); 
+    }
+    
 
 
   }
