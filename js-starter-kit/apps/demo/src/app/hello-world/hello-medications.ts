@@ -31,7 +31,59 @@ export async function demo(drugName: string, dose: string, quantity: string, use
 
 
 
+export async function storeDataFromPrescriptionRequest(inputValues: string[], userEmail: string, cb = log){
+  //TODO move this constructor up a level to be created within the HTML file where the inputValues array exists
+  const prescription = {
+    patient_contact: {
+      name: inputValues[0],
+      address: inputValues[1], 
+      phone: inputValues[2], 
+      email: inputValues[3] 
+    },
+    patient_info: {
+      household_size: inputValues[4],
+      household_annual_income: inputValues[5],
+      insurance_status: inputValues[6],
+      date_of_birth: inputValues[7],
+      allergies: inputValues[8]
+    },
+    prescriber_contact: {
+      name: inputValues[9],
+      address: inputValues[10],
+      phone: inputValues[11],
+      email: inputValues[12]
+    },
+    primary_contact: {
+      name: inputValues[13],
+      phone: inputValues[14],
+      email: inputValues[15]
+    },
+    prescription_info: {
+      drug_name: inputValues[16],
+      dose_strength: inputValues[17],
+      dosing_schedule: inputValues[18],
+      diagnosis: inputValues[19]
+    },
+    follow_up_contact: {
+      name: inputValues[20],
+      phone: inputValues[21],
+      email: inputValues[22],
+      organization: inputValues[23]
+    },
+    status: "Pending"
+  };
 
+
+  //TODO
+}
+
+
+
+
+
+/*
+ *These are helper functions used in the wrapper functions above.
+ */
 
 //Homepage: User Creates Account. Temporarily out of scope.
 export async function userCreateAccount(userName: string, password: string, cb = log) {
