@@ -192,10 +192,13 @@ export async function transferFromInventory (assetId, chainClient, medicationsDi
 
 //get all available items in the inventory and deliver to midlevel code for display to main inventory page
 export async function getAvailableInventory (chainClient, privateIdInventory) {
-  const tqlPrintInv = `SELECT asset.private_id FROM Medications`;
+  const tqlPrintInv = `SELECT asset.name FROM Medications`;
   let inventory: Asset[] = await chainClient.query(userDictionary.collection, privateIdInventory, tqlPrintInv);
   for (var i = 0; i < inventory.length; i++) {
-    console.log(JSON.parse(inventory[i].asset)); // i literally have no idea if .asset is right but
+    if(inventory[i].asset.status == "Approved") {
+      console.log(JSON.parse(inventory[i].asset)); 
+    }
+    
 
 
   }
