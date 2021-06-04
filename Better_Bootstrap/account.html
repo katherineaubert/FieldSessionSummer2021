@@ -26,7 +26,8 @@
             <div class="container px-4 px-lg-5">
                 <a class="navbar-brand" href="home.html">RemediChain</a> <!--Navigation Bar title-->
                 <button class="navbar-toggler navbar-toggler-right" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button> <!--Navigation Bar-->
-                <div class="collapse navbar-collapse" id="navbarResponsive"> <!--Collapses the navigation bar if screen is small-->
+                <div class="collapse navbar-collapse" id="navbarResponsive">
+                    <!--Collapses the navigation bar if screen is small-->
                     <ul class="navbar-nav ms-auto my-2 my-lg-0">
                         <li class="nav-item"><a class="nav-link" href="logged_in_home.html#about">About</a></li> <!--Scrolls down to About section-->
                         <li class="nav-item"><a class="nav-link" href="logged_in_home.html#howitworks">Learn More</a></li> <!--Scrolls down to Learn More section-->
@@ -41,7 +42,8 @@
         <!--************-->
         <!--Account Page-->
         <!--************-->
-        <section class="page-section" id="Account"> <!--Name of this section-->
+        <section class="page-section" id="Account">
+            <!--Name of this section-->
             <div class="container px-4 px-lg-5">
                 <div class="row gx-4 gx-lg-5 justify-content-center">
                     <div class="col-lg-8 col-xl-6 text-center">
@@ -55,58 +57,85 @@
                         <a href="inventory.html" class="btn btn-primary btn-xl" style="width:33.3%">View Available Inventory</a> <!--Inventory Button-->
                     </div>
                 </div>
-                <div class="row">
-                    <div class="col-md-8">
-                        <ul class="nav nav-tabs">
-                            <li class="active"><a href="#">Home</a></li>
-                            <li><a href="#">Menu 1</a></li>
-                            <li><a href="#">Menu 2</a></li>
-                            <li><a href="#">Menu 3</a></li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </section>
 
-        <!--***************-->
-        <!--Make a donation-->
-        <!--***************-->
-        <section class="page-section" id="Donate">
-            <div class="container px-4 px-lg-5">
-                <div class="row gx-4 gx-lg-5 justify-content-center">
-                    <div class="col-lg-8 col-xl-6 text-center">
-                        <h2 class="mt-0">Donation Form</h2> <!--Title of donation page-->
-                        <hr class="divider" /> <!--Little green bar-->
-                        <p class="text-muted mb-5">Ready to donate medication? Fill out this form and we will get back to you as soon as possible!</p> <!--Description-->
-                    </div>
+                <div class="spacer"></div> <!--Space between buttons and menu-->
+
+                <button class="tablink" onclick="openPage('donatedAssets', this, '#49902d')" id="defaultOpen">Donated Medication</button>
+                <button class="tablink" onclick="openPage('donationValue', this, '#49902d')">Donation Value</button>
+                <button class="tablink" onclick="openPage('taxInfo', this, '#49902d')">Tax Information</button>
+
+                <div id="donatedAssets" class="tabcontent">
+                    <p>Donated Assets</p>
+                    <p>Donated Assets</p>
+                    <p>Donated Assets</p>
+                    <p>Donated Assets</p>
+                    <p>Donated Assets</p>
+                    <p>Donated Assets</p>
+                    <p>Donated Assets</p>
+                    <p>Donated Assets</p>
+                    <p>Donated Assets</p>
+                    <p>Donated Assets</p>
+                    <p>Donated Assets</p>
+                    <p>Donated Assets</p>
                 </div>
-                <div class="row gx-4 gx-lg-5 justify-content-center mb-5"> <!--Centers the row-->
-                    <div class="col-lg-6">
-                        <form>
-                            <div class="form-floating mb-3">
-                                <input class="form-control" id="inputName" type="text" placeholder="Enter the drug name..." /> <!--Text field for Drug Name-->
-                                <label for="inputName">Drug Name</label> <!--Label for text field-->
-                            </div>
-                            <div class="form-floating mb-3">
-                                <input class="form-control" id="inputDose" type="text" placeholder="50mg" /> <!--Text field for Dosage Strength-->
-                                <label for="inputDose">Dosage Strength</label> <!--Label for text field-->
-                            </div>
-                            <div class="form-floating mb-3">
-                                <input class="form-control" id="inputQuantity" type="number" placeholder="100" /> <!--Text field for Quantity-->
-                                <label for="inputquantity">Quantity</label> <!--Label for text field-->
-                            </div>
-                            <div class="d-grid"><button class="btn btn-primary btn-xl" type="submit">Submit</button></div>
-                        </form>
-                    </div>
+
+                <div id="donationValue" class="tabcontent">
+                    <p>Donation Value</p>
+                    <p>Donation Value</p>
+                    <p>Donation Value</p>
+                    <p>Donation Value</p>
+                    <p>Donation Value</p>
+                    <p>Donation Value</p>
+                    <p>Donation Value</p>
+                    <p>Donation Value</p>
+                    <p>Donation Value</p>
+                    <p>Donation Value</p>
                 </div>
-                <div class="row gx-4 gx-lg-5 justify-content-center">
-                    <div class="col-lg-4 text-center mb-5 mb-lg-0">
-                        <i class="bi-phone fs-2 mb-3 text-muted"></i>
-                        <div>(833) 999-1003</div>
-                    </div>
+
+                <div id="taxInfo" class="tabcontent">
+                    <p>Tax Info</p>
+                    <p>Tax Info</p>
+                    <p>Tax Info</p>
+                    <p>Tax Info</p>
+                    <p>Tax Info</p>
+                    <p>Tax Info</p>
+                    <p>Tax Info</p>
+                    <p>Tax Info</p>
+                    <p>Tax Info</p>
+                    <p>Tax Info</p>
+                    <p>Tax Info</p>
                 </div>
+
             </div>
         </section>
+        <!--******************-->
+        <!--Javascript Section-->
+        <!--******************-->
+        <script>
+            function openPage(pageName, elmnt, color) {
+                // Hide all elements with class="tabcontent" by default */
+                var i, tabcontent, tablinks;
+                tabcontent = document.getElementsByClassName("tabcontent");
+                for (i = 0; i < tabcontent.length; i++) {
+                    tabcontent[i].style.display = "none";
+                }
+
+                // Remove the background color of all tablinks/buttons
+                tablinks = document.getElementsByClassName("tablink");
+                for (i = 0; i < tablinks.length; i++) {
+                    tablinks[i].style.backgroundColor = "";
+                }
+
+                // Show the specific tab content
+                document.getElementById(pageName).style.display = "block";
+
+                // Add the specific color to the button used to open the tab content
+                elmnt.style.backgroundColor = color;
+            }
+
+            // Get the element with id="defaultOpen" and click on it
+            document.getElementById("defaultOpen").click();
+        </script>
 
 
         <!--*******-->
