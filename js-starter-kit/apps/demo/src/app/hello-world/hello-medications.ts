@@ -78,20 +78,22 @@ export async function storeDataFromPrescriptionRequest(inputValues: string[], us
 
   //set inventory ID Pair
   const privateIdInventory = 'c50188204aecb09d';
-  let publicIdInventory = await getInventoryPublicId(chainClient, privateIdInventory);
  
   //Get the user asset from their email
-  const tql = `SELECT asset FROM RemedichainUsers WHERE asset.user_email = '${userEmail}'`;
+  const tql = `SELECT * FROM RemedichainUsers WHERE asset.user_email = '${userEmail}'`;
   let userAssets: Asset[] = await chainClient.query(userDictionary.collection, privateIdInventory, tql);
-  let asset = userAssets[0];
+  
+  let asset = userAssets[0].asset;
 
   //Get the id of the user asset
-  let firstAssetId = asset.asset_id;
-  //Update the user to add this prescription:
-  asset.asset.prescriptions.push(prescription);
+  let firstAssetId = userAssets[0].asset_id;
 
+  //Update the user to add this prescription:
+  asset.prescriptions.push(prescription);
+
+  //Update the asset by adding the new prescription to the array of prescriptions
   let tmpId = await chainClient.updateAsset(userDictionary.collection, privateIdInventory, firstAssetId, asset, null);
-  cb(`We have passed Line 94. ${inputValues[9]}, ${inputValues[23]}`);
+
 }
 
 
