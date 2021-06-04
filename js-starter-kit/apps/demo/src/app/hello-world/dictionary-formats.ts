@@ -60,7 +60,7 @@ export const userDictionary: CollectionDictionary = {
     }, {
       name: 'private_id'
     }, {
-      name: 'prescriptions'
+      name: 'prescriptions' 
     }]
   }
 };

@@ -73,8 +73,20 @@ export async function storeDataFromPrescriptionRequest(inputValues: string[], us
     status: "Pending"
   };
 
+  // create the burst chain client as a global variable
+  const chainClient = new BurstChainSDK('https://testnet.burstiq.com', 'mines_summer');
 
-  //TODO
+  //set inventory ID Pair
+  const privateIdInventory = 'c50188204aecb09d';
+  let publicIdInventory = await getInventoryPublicId(chainClient, privateIdInventory);
+ 
+  //Get the user from their email
+
+  //Update the user to add this prescription:
+  asset['monetary_value'] = 4.99;
+
+  let tmpId = await chainClient.updateAsset(dictionary.collection, privateIdInventory, firstAssetId, asset, null);
+  cb(`Asset updated ${tmpId} for this demo`);
 }
 
 
