@@ -28,11 +28,10 @@
                 <button class="navbar-toggler navbar-toggler-right" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button> <!--Navigation Bar-->
                 <div class="collapse navbar-collapse" id="navbarResponsive"> <!--Collapses the navigation bar if screen is small-->
                     <ul class="navbar-nav ms-auto my-2 my-lg-0">
-                        <li class="nav-item"><a class="nav-link" href="logged_in_home.html#about">About</a></li> <!--Scrolls down to About section-->
-                        <li class="nav-item"><a class="nav-link" href="logged_in_home.html#howitworks">Learn More</a></li> <!--Scrolls down to Learn More section-->
-                        <li class="nav-item"><a class="nav-link" href="logged_in_home.html#contact">Contact Us</a></li> <!--Scrolls down to Contact Us section-->
-                        <li class="nav-item"><a class="nav-link" href="account.html">My Account</a></li> <!--Links to account page-->
-                        <li class="nav-item"><a class="nav-link" href="home.html">Logout</a></li> <!--Links to login page-->
+                        <li class="nav-item"><a class="nav-link" href="home.html#about">About</a></li> <!--Scrolls down to About section-->
+                        <li class="nav-item"><a class="nav-link" href="home.html#howitworks">Learn More</a></li> <!--Scrolls down to Learn More section-->
+                        <li class="nav-item"><a class="nav-link" href="home.html#contact">Contact Us</a></li> <!--Scrolls down to Contact Us section-->
+                        <li class="nav-item"><a class="nav-link" href="login.html">Login </a></li> <!--Links to login page-->
                     </ul>
                 </div>
             </div>
@@ -42,31 +41,27 @@
         <!--***************-->
         <!--Make a donation-->
         <!--***************-->
-        <section class="page-section" id="Donate">
+        <section class="page-section" id="Login">
             <div class="container px-4 px-lg-5">
                 <div class="row gx-4 gx-lg-5 justify-content-center">
                     <div class="col-lg-8 col-xl-6 text-center">
-                        <h2 class="mt-0">Donation Form</h2> <!--Title of donation page-->
+                        <h2 class="mt-0">Login</h2> <!--Title of Login page-->
                         <hr class="divider" /> <!--Little green bar-->
-                        <p class="text-muted mb-5">Ready to donate medication? Fill out this form and we will get back to you as soon as possible!</p> <!--Description-->
+                        <p class="text-muted mb-5">To donate medication, become a patient, or view available inventory, please login</p> <!--Description-->
                     </div>
                 </div>
                 <div class="row gx-4 gx-lg-5 justify-content-center mb-5"> <!--Centers the row-->
                     <div class="col-lg-6">
                         <form>
                             <div class="form-floating mb-3">
-                                <input class="form-control" id="inputName" type="text" placeholder="Enter the drug name..." /> <!--Text field for Drug Name-->
-                                <label for="inputName">Drug Name</label> <!--Label for text field-->
+                                <input class="form-control" id="inputEmail" type="email" placeholder="name@example.com" /> <!--Text field for Username-->
+                                <label for="inputEmail">Email Address</label> <!--Label for text field-->
                             </div>
                             <div class="form-floating mb-3">
-                                <input class="form-control" id="inputDose" type="text" placeholder="50mg" /> <!--Text field for Dosage Strength-->
-                                <label for="inputDose">Dosage Strength</label> <!--Label for text field-->
+                                <input class="form-control" id="inputPassword" type="password" placeholder="Enter your password..." /> <!--Text field for Dosage Strength-->
+                                <label for="inputPassword">Password</label> <!--Label for text field-->
                             </div>
-                            <div class="form-floating mb-3">
-                                <input class="form-control" id="inputQuantity" type="number" placeholder="100" /> <!--Text field for Quantity-->
-                                <label for="inputquantity">Quantity</label> <!--Label for text field-->
-                            </div>
-                            <div class="d-grid"><button class="btn btn-primary btn-xl" type="submit">Submit</button></div>
+                            <div class="d-grid"><button class="btn btn-primary btn-xl" type="submit">Login</button></div>
                         </form>
                     </div>
                 </div>
