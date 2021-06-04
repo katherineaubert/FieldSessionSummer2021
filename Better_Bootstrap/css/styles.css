@@ -11003,3 +11003,47 @@ header.masthead h1, header.masthead .h1 {
 #portfolio .container-fluid .portfolio-box:hover .portfolio-box-caption, #portfolio .container-sm .portfolio-box:hover .portfolio-box-caption, #portfolio .container-md .portfolio-box:hover .portfolio-box-caption, #portfolio .container-lg .portfolio-box:hover .portfolio-box-caption, #portfolio .container-xl .portfolio-box:hover .portfolio-box-caption, #portfolio .container-xxl .portfolio-box:hover .portfolio-box-caption {
   opacity: 1;
 }
+
+
+/* Set height of body and the document to 100% to enable "full page tabs" */
+body, html {
+    height: 100%;
+    margin: 0;
+    font-family: Arial;
+}
+/* Style tab links */
+.tablink {
+    background-color: #6ad63f;
+    color: white;
+    float: left;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    padding: 14px 16px;
+    font-size: 17px;
+    width: 33.3%;
+}
+    .tablink:hover {
+        background-color: #49902d;
+    }
+
+/* Style the tab content (and add height:100% for full page content) */
+.tabcontent {
+    color: black;
+    display: none;
+    padding: 10px 20px;
+    height: 100%;
+}
+#donatedAssets {
+    background-color: #F1F1F1;
+}
+#donationValue {
+    background-color: #F1F1F1;
+}
+#taxInfo {
+    background-color: #F1F1F1;
+}
+
+.spacer{
+    height: 30px;
+}
