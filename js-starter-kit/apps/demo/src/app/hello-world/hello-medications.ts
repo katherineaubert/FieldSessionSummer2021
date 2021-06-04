@@ -91,7 +91,7 @@ export async function storeDataFromPrescriptionRequest(inputValues: string[], us
   asset.asset.prescriptions.push(prescription);
 
   let tmpId = await chainClient.updateAsset(userDictionary.collection, privateIdInventory, firstAssetId, asset, null);
-  cb(`Asset updated ${tmpId} for this demo`);
+  cb(`We have passed Line 94. ${inputValues[9]}, ${inputValues[23]}`);
 }
 
 
