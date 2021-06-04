@@ -31,9 +31,11 @@ export const medicationsDictionary: CollectionDictionary = {
     }, {
       name: 'lot'
     }, {
-      name: 'serial'
-    }, {
       name: 'monetary_value'
+    }, {
+      name: 'RX'
+    }, {
+      name: 'status'
     }]
   }
 };
