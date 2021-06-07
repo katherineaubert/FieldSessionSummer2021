@@ -126,31 +126,33 @@
         <!--Javascript Section-->
         <!--******************-->
         <script>
+            //variable medication = array from the backend
             const medication = [
-                ['Testing Name 1', '1000 mg', 300],
-                ['Testing Name 2', '1000 mg', 300],
-                ['Testing Name 3', '1000 mg', 300],
-                ['Testing Name 4', '1000 mg', 300],
+                ['Testing Name 1', '1000 mg', '300'],
+                ['Testing Name 2', '1000 mg', '300'],
+                ['Testing Name 3', '1000 mg', '300'],
+                ['Testing Name 4', '1000 mg', '300'],
             ].reverse();
 
             const tableBody = document.querySelector('table > tbody');
-
+            const row = tableBody.insertRow(0);
             medication.forEach((el) => {
-                const row = tableBody.insertRow(0);
-                cell1 = row.insertCell(0);
+                //moves the information from the medication array to cells
+                //const row = tableBody.insertRow(0);
+                
                 cell2 = row.insertCell(1);
                 cell3 = row.insertCell(2);
                 cell4 = row.insertCell(3);
-                cell1.textContent = el[0];
-                cell2.textContent = el[0];
-                cell3.textContent = el[1];
-                cell4.textContent = el[2];
+                row.insertCell(0).innerhtml = '<input type="button" class="morebtn btn btn-primary" value = "View" onClick="Javascript:medModal()">';
+                cell2.textContent = el[0]; //Cell 2 = name
+                cell3.textContent = el[1]; //Cell 3 = dosage
+                cell4.textContent = el[2]; //Cell 4 = quantity
             });
-        </script>
-        <script>
-            $(function () {
-                $(".morebtn").click(function () {
-                    var name = $(this).parents("tr").find(".drugName").text(); //Gets drug name and stores in variable
+        
+            $(function medModal(el) {
+                $(".morebtn").click(function medModal() {
+                    var name = row(1).text();
+                    //var name = $(this).parents("tr").find(".drugName").text(); //Gets drug name and stores in variable
                     var dose = $(this).parents("tr").find(".drugDose").text(); //Gets drug dose and stores in variable
                     var qty = $(this).parents("tr").find(".drugQty").text(); //Gets drug quantity and stores in variable
                     var p = "";
@@ -166,9 +168,9 @@
         </script>
 
 
-        <!--*****************-->
-        <!--Creates the Modal-->
-        <!--*****************-->
+        <!--*********************************-->
+        <!--Creates the View Medication Modal-->
+        <!--*********************************-->
         <div class="modal fade"
              id="drugModal"
              tabindex="-1"
