@@ -173,7 +173,7 @@ export async function transferFromInventory (assetId, chainClient, medicationsDi
 
 
 // this is hello-medications.ts, the callee
-export async function getAvailableInventory () {
+export async function getAvailableInventory (cb = log) {
   // create the burst chain client as a global variable
   const chainClient = new BurstChainSDK('https://testnet.burstiq.com', 'mines_summer');
   //set inventory ID Pair
@@ -190,8 +190,11 @@ export async function getAvailableInventory () {
   }
   
   // returns a 2D JS array, where each row is a med, and each column is a name/dose/quantity in that order
+  return await Promise.resolve(arrOfInventory).then(response => {return arrOfInventory});
+
+
+
   //return Promise.resolve(arrOfInventory).then(response => cb(response))
-  return arrOfInventory
 }
 
 
