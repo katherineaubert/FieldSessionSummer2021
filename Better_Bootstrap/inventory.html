@@ -79,9 +79,20 @@
                             <th scope="col">Qty Remaining</th> <!--Title of the column-->
                         </tr>
                     </thead>
-                    <tbody> <!--Body of the table-->
-                        <tr> <!--Row 1-->
-                            <td> <!--View Button-->
+                    <tbody>
+                        <!--Body of the table-->
+                        <!--*******************************************************************************-->
+                        <!--*******************************************************************************-->
+                        <!--for loop to iterate through the array create a new row and fill out the classes-->
+                        <!--*******************************************************************************-->
+                        <!--*******************************************************************************-->
+                        <!--https://www.mysamplecode.com/2012/04/generate-html-table-using-javascript.html-->
+
+
+                        <tr>
+                            <!--Row 1-->
+                            <td>
+                                <!--View Button-->
                                 <button class="morebtn btn btn-primary" data-toggle="modal" data-target="#drugModal">
                                     View
                                 </button>
@@ -91,8 +102,10 @@
                             <td class="drugDose">10000mg</td> <!--Drug Dosage-->
                             <td class="drugQty">30</td> <!--Quantity of Drug-->
                         </tr>
-                        <tr> <!--Row 2-->
-                            <td> <!--View Button-->
+                        <tr>
+                            <!--Row 2-->
+                            <td>
+                                <!--View Button-->
                                 <button class="morebtn btn btn-primary" data-toggle="modal" data-target="#drugModal">
                                     View
                                 </button>
@@ -102,6 +115,7 @@
                             <td class="drugDose">100mg</td> <!--Drug Dosage-->
                             <td class="drugQty">30000</td> <!--Quantity of Drug-->
                         </tr>
+
                     </tbody>
                 </table>
             </div>
@@ -111,6 +125,28 @@
         <!--******************-->
         <!--Javascript Section-->
         <!--******************-->
+        <script>
+            const medication = [
+                ['Testing Name 1', '1000 mg', 300],
+                ['Testing Name 2', '1000 mg', 300],
+                ['Testing Name 3', '1000 mg', 300],
+                ['Testing Name 4', '1000 mg', 300],
+            ].reverse();
+
+            const tableBody = document.querySelector('table > tbody');
+
+            medication.forEach((el) => {
+                const row = tableBody.insertRow(0);
+                cell1 = row.insertCell(0);
+                cell2 = row.insertCell(1);
+                cell3 = row.insertCell(2);
+                cell4 = row.insertCell(3);
+                cell1.textContent = el[0];
+                cell2.textContent = el[0];
+                cell3.textContent = el[1];
+                cell4.textContent = el[2];
+            });
+        </script>
         <script>
             $(function () {
                 $(".morebtn").click(function () {
