@@ -78,20 +78,22 @@ export async function storeDataFromPrescriptionRequest(inputValues: string[], us
 
   //set inventory ID Pair
   const privateIdInventory = 'c50188204aecb09d';
-  let publicIdInventory = await getInventoryPublicId(chainClient, privateIdInventory);
  
   //Get the user asset from their email
-  const tql = `SELECT asset FROM RemedichainUsers WHERE asset.user_email = '${userEmail}'`;
+  const tql = `SELECT * FROM RemedichainUsers WHERE asset.user_email = '${userEmail}'`;
   let userAssets: Asset[] = await chainClient.query(userDictionary.collection, privateIdInventory, tql);
-  let asset = userAssets[0];
+  
+  let asset = userAssets[0].asset;
 
   //Get the id of the user asset
-  let firstAssetId = asset.asset_id;
-  //Update the user to add this prescription:
-  asset.asset.prescriptions.push(prescription);
+  let firstAssetId = userAssets[0].asset_id;
 
+  //Update the user to add this prescription:
+  asset.prescriptions.push(prescription);
+
+  //Update the asset by adding the new prescription to the array of prescriptions
   let tmpId = await chainClient.updateAsset(userDictionary.collection, privateIdInventory, firstAssetId, asset, null);
-  cb(`Asset updated ${tmpId} for this demo`);
+
 }
 
 
@@ -102,17 +104,6 @@ export async function storeDataFromPrescriptionRequest(inputValues: string[], us
  *These are helper functions used in the wrapper functions above.
  */
 
-//Homepage: User Creates Account. Temporarily out of scope.
-export async function userCreateAccount(userName: string, password: string, cb = log) {
-
-  cb('\n'
-    + '--------------------------------------------------------------\n'
-    + 'Burst Chain Client - Hello Medications Demo\n'
-    + 'Copyright (c) 2015-2021 BurstIQ, Inc.\n'
-    + '--------------------------------------------------------------\n')
-
-
-}
 
 export async function getInventoryPublicId (chainClient, privateIdInventory) {
   let publicIdInventory = await chainClient.getPublicId(privateIdInventory);
@@ -210,9 +201,22 @@ export async function getAvailableInventory (chainClient, privateIdInventory) {
 }
 
 
-
-
 //get all pending items in the inventory and deliver to midlevel code for display to pharmacist inventory page
 export async function getPendingInventory () {
   //TODO
 }
+
+
+
+//Homepage: User Creates Account. Temporarily out of scope.
+export async function userCreateAccount(userName: string, password: string, cb = log) {
+
+  cb('\n'
+    + '--------------------------------------------------------------\n'
+    + 'Burst Chain Client - Hello Medications Demo\n'
+    + 'Copyright (c) 2015-2021 BurstIQ, Inc.\n'
+    + '--------------------------------------------------------------\n')
+
+
+}
+

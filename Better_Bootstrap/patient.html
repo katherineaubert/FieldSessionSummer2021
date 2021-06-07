@@ -53,7 +53,11 @@
                 </div>
                 <div class="row gx-4 gx-lg-5 justify-content-center mb-5"> <!--Centers the row-->
                     <div class="col-lg-6">
-                        <form>
+                                                                        <!--********************************************************-->
+                                                                        <!--********************************************************-->
+                        <form action="account.html" method="POST">      <!--Clicking the submit button will link to the account page-->
+                                                                        <!--********************************************************-->
+                                                                        <!--********************************************************-->
                             <label><h3>Patient Information</h3></label>
                             <div class="form-floating mb-3">
                                 <input class="form-control" id="inputPatientName" type="text" placeholder="Enter your name..." /> <!--Text field for Patient's Name-->
@@ -160,7 +164,12 @@
                                 <input class="form-control" id="inputSubmitOrganization" type="text" placeholder="Organization" /> <!--Text field for Submittion Organization-->
                                 <label for="inputSubmitOrganization">Organization</label> <!--Label for text field-->
                             </div>
-                            <div class="d-grid"><button class="btn btn-primary btn-xl" type="submit">Submit</button></div> <!--Submit Button-->
+
+                            <div class="d-grid">
+                                    <button class="btn btn-primary btn-xl" type="submit">
+                                        Submit
+                                    </button>
+                            </div> <!--make the submit type button rereoute to account page-->
                         </form>
                     </div>
                 </div>
