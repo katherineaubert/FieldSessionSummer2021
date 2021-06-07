@@ -159,15 +159,6 @@ export async function transferToInventory (assetId, chainClient, medicationsDict
 
 
 
-
-//called when a pharmacist user clicks the button to approve medications for inventory
-export async function pharmacistApproval (asset) {
-  //TODO
-}
-
-
-
-
 //transfer ownership of a drug from the inventory to a recipient
 export async function transferFromInventory (assetId, chainClient, medicationsDictionary, privateIdInventory, publicIdInventory, privateIdUser, publicIdUser) {
   const transferResp = await chainClient.transferAsset(medicationsDictionary.collection, privateIdInventory, assetId, [publicIdInventory],
@@ -209,6 +200,10 @@ export async function getPendingInventory () {
   //TODO
 }
 
+//called when a pharmacist user clicks the button to approve medications for inventory
+export async function pharmacistApproval (asset) {
+  //TODO
+}
 
 
 //Homepage: User Creates Account. Temporarily out of scope.
