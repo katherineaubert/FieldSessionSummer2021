@@ -134,11 +134,6 @@ export class AppElement extends CustomElement {
     function convertPromiseArrayToStringArray(invArr: Promise<string[][]>){
       let stringInvArr: string[][] = null;
 
-
-
-
-
-
       stringInvArr = Promise.resolve(invArr).then(result => stringInvArr);
     
       return stringInvArr;
