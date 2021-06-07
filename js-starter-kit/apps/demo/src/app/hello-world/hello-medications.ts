@@ -181,23 +181,26 @@ export async function transferFromInventory (assetId, chainClient, medicationsDi
 
 
 
-//get all available items in the inventory and deliver to midlevel code for display to main inventory page
-export async function getAvailableInventory (chainClient, privateIdInventory) {
-  const tqlPrintInv = `SELECT asset.name FROM Medications`;
-  let inventory: Asset[] = await chainClient.query(userDictionary.collection, privateIdInventory, tqlPrintInv);
-  var arrOfInventory = Array.from(Array(inventory.length), () => new Array(3));
-  for (var i = 0; i < inventory.length; i++) {
-    if(inventory[i].asset.status == "Approved") {
-      arrOfInventory[i][0] = inventory[i].asset.drug_name;
-      arrOfInventory[i][1] = inventory[i].asset.dose;
-      arrOfInventory[i][2] = inventory[i].asset.quantity;
-    }
-    
+// this is hello-medications.ts, the callee
+export async function getAvailableInventory () {
+  // create the burst chain client as a global variable
+  const chainClient = new BurstChainSDK('https://testnet.burstiq.com', 'mines_summer');
+  //set inventory ID Pair
+  const privateIdInventory = 'c50188204aecb09d';
 
+  const tqlPrintInv = `SELECT * FROM Medications WHERE asset.status = 'Approved'`;
+  const inventory: Asset[] = await chainClient.query(medicationsDictionary.collection, privateIdInventory, tqlPrintInv);
+  let arrOfInventory = Array.from(Array(inventory.length), () => new Array(3));
+  for (let i = 0; i < inventory.length; i++) {
 
+    arrOfInventory[i][0] = inventory[i].asset.drug_name;
+    arrOfInventory[i][1] = inventory[i].asset.dose;
+    arrOfInventory[i][2] = inventory[i].asset.quantity;
   }
+  
   // returns a 2D JS array, where each row is a med, and each column is a name/dose/quantity in that order
-  return arrOfInventory;
+  //return Promise.resolve(arrOfInventory).then(response => cb(response))
+  return arrOfInventory
 }
 
 

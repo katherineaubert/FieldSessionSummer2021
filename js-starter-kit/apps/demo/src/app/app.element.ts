@@ -1,7 +1,8 @@
 // imports for css
+import { callbackify } from 'util';
 import './app.element.scss';
 import { CustomElement } from './custom-element'
-import { demo, storeDataFromPrescriptionRequest } from './hello-world/hello-medications'
+import { demo, getAvailableInventory, storeDataFromPrescriptionRequest } from './hello-world/hello-medications'
 
 export class AppElement extends CustomElement {
   public static observedAttributes = [];
@@ -14,6 +15,7 @@ export class AppElement extends CustomElement {
     inputValues: string[]
     lines: string[] = [] // you may need an = [] at the end but maybe not im not sure
 
+    
     constructor() {
         // inherits customElement
         super()
@@ -107,17 +109,30 @@ export class AppElement extends CustomElement {
       // using spred operator creates a linting error
       
       
-      demo(this.inputValues[0], this.inputValues[1], this.inputValues[2], "johndoenor@gmail.com", this.addLine.bind(this));
+      //demo(this.inputValues[0], this.inputValues[1], this.inputValues[2], "johndoenor@gmail.com", this.addLine.bind(this));
       
-      storeDataFromPrescriptionRequest(['alpha', 'beta', 'gamma', 'delta', 'epsilon', 'zeta', 'eta', 
-      'theta', 'iota', 'kappa', 'lambda', 'mu', 'nu', 'xi', 'omicron', 'pi', 'rho', 'sigma', 'tau', 
-      'upsilon', 'fi', 'chi', 'psi', 'omega'], "johndoenor@gmail.com", this.addLine.bind(this))
+      //storeDataFromPrescriptionRequest(['alpha', 'beta', 'gamma', 'delta', 'epsilon', 'zeta', 'eta', 
+      //'theta', 'iota', 'kappa', 'lambda', 'mu', 'nu', 'xi', 'omicron', 'pi', 'rho', 'sigma', 'tau', 
+      //'upsilon', 'fi', 'chi', 'psi', 'omega'], "johndoenor@gmail.com", this.addLine.bind(this))
 
-    } else {
-      console.log("If statement has failed.")
+      // this is app.elements.ts
+      // caller tries to get 2D array from hello-medications.ts
+      async function displayInventory(){
+        let invArr  = await getAvailableInventory();
+        for(let i = 0; i < invArr.length; i++){
+          console.log(invArr[i])
+        }
+      }
+      
+    displayInventory()
+
+      
+      
+
+
     }
   }
-
+  
   connectedCallback() {
     this.init()
   }
