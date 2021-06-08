@@ -113,9 +113,13 @@ export class AppElement extends CustomElement {
       //'theta', 'iota', 'kappa', 'lambda', 'mu', 'nu', 'xi', 'omicron', 'pi', 'rho', 'sigma', 'tau',
       //'upsilon', 'fi', 'chi', 'psi', 'omega'], "johndoenor@gmail.com", this.addLine.bind(this))
 
+      let invArrString = []
 
+      
+
+      
       displayInventory()
-
+      
     }
   }
 
@@ -126,30 +130,26 @@ export class AppElement extends CustomElement {
 }
 
 function displayInventory(){
-
   let invArrString = []
-  let invArrPromise = getAvailableInventory(this.addLine.bind(this));
+  let invArrPromise = getAvailableInventory();
   invArrPromise.then(
-    value => {
-      for (let i = 0; i < value.length; i++){
-      invArrString.push(value[i])
-      }
-
-      //TODO add to UI
-      //localStorage.setItem("displayInventoryArray", JSON.stringify(invArrString))
-
-      //David does this to get the contents of the array; based on KEY.
-      //Must reformat from JSON back to Array for display purposes.
-      //let storedArray = localStorage.getItem("displayInventoryArray")
-      //invArrString = JSON.parse(storedArray)
+     value => {
+        for (let i = 0; i < value.length; i++){
+          invArrString.push(value[i])
+        }
+        for (let i = 0; i < invArrString.length; i++){
+          console.log(invArrString[i])
+        }
+      
+      
     }
   ).catch(
     error => {
       invArrString = ["No Inventory - Error"]
       error = "There was an error loading the inventory. Please try again."; alert(error)
+      
     }
   )
-    return invArrString
 }
 
 customElements.define('starter-kit-root', AppElement);

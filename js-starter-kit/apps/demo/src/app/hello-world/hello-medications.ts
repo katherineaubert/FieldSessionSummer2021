@@ -173,7 +173,7 @@ export async function transferFromInventory (assetId, chainClient, medicationsDi
 
 
 // this is hello-medications.ts, the callee
-export async function getAvailableInventory (cb = log) {
+export async function getAvailableInventory () {
   // create the burst chain client as a global variable
   const chainClient = new BurstChainSDK('https://testnet.burstiq.com', 'mines_summer');
   //set inventory ID Pair
