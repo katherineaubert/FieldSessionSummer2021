@@ -78,6 +78,9 @@ export class AppElement extends CustomElement {
           <summary>Results</summary>
           <data-repeater data-bind="data:lines"></data-repeater>
         </details>
+
+        <p id="demo"></p>
+
       </main>
     `;
 
@@ -138,7 +141,9 @@ function displayInventory(){
           invArrString.push(value[i])
         }
         for (let i = 0; i < invArrString.length; i++){
-          console.log(invArrString[i])
+          console.log(invArrString[i]);
+          document.write(invArrString[i]);
+         
         }
       
       
