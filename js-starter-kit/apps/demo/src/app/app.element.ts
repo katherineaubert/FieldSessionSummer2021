@@ -15,7 +15,7 @@ export class AppElement extends CustomElement {
     inputValues: string[]
     lines: string[] = [] // you may need an = [] at the end but maybe not im not sure
 
-    
+
     constructor() {
         // inherits customElement
         super()
@@ -80,7 +80,7 @@ export class AppElement extends CustomElement {
         </details>
       </main>
     `;
-            
+
 
 
   }
@@ -106,19 +106,19 @@ export class AppElement extends CustomElement {
         const elm = this.inputForm.elements.namedItem(name) as HTMLInputElement
         return elm.value
       })
-      
+
       //demo(this.inputValues[0], this.inputValues[1], this.inputValues[2], "johndoenor@gmail.com", this.addLine.bind(this));
-      
-      //storeDataFromPrescriptionRequest(['alpha', 'beta', 'gamma', 'delta', 'epsilon', 'zeta', 'eta', 
-      //'theta', 'iota', 'kappa', 'lambda', 'mu', 'nu', 'xi', 'omicron', 'pi', 'rho', 'sigma', 'tau', 
+
+      //storeDataFromPrescriptionRequest(['alpha', 'beta', 'gamma', 'delta', 'epsilon', 'zeta', 'eta',
+      //'theta', 'iota', 'kappa', 'lambda', 'mu', 'nu', 'xi', 'omicron', 'pi', 'rho', 'sigma', 'tau',
       //'upsilon', 'fi', 'chi', 'psi', 'omega'], "johndoenor@gmail.com", this.addLine.bind(this))
-      
-      
+
+
       displayInventory()
-  
+
     }
   }
-  
+
   connectedCallback() {
     this.init()
   }
@@ -126,7 +126,7 @@ export class AppElement extends CustomElement {
 }
 
 function displayInventory(){
-    
+
   let invArrString = []
   let invArrPromise = getAvailableInventory(this.addLine.bind(this));
   invArrPromise.then(
@@ -134,9 +134,14 @@ function displayInventory(){
       for (let i = 0; i < value.length; i++){
       invArrString.push(value[i])
       }
-      
-      //TODO add to UI
 
+      //TODO add to UI
+      localStorage.setItem("displayInventoryArray", JSON.stringify(invArrString))
+
+      //David does this to get the contents of the array; based on KEY.
+      //Must reformat to JSON for display purposes.
+      let storedArray = localStorage.getItem("displayInventoryArray")
+      invArrString = JSON.parse(storedArray)
     }
   ).catch(
     error => {
