@@ -117,17 +117,35 @@ export class AppElement extends CustomElement {
 
       // this is app.elements.ts
       // caller tries to get 2D array from hello-medications.ts
-      async function displayInventory(){
-        let invArr  = await getAvailableInventory();
-        for(let i = 0; i < invArr.length; i++){
-          console.log(invArr[i])
-        }
-      }
       
-    displayInventory()
+      
+      // async function displayInventory(){
+      //   let invArr  = await getAvailableInventory();
+      //   for(let i = 0; i < invArr.length; i++){
+      //     console.log(invArr[i])
+      //   }
+      // }
+      
+    //displayInventory()
+    
+    
+    let invArr = getAvailableInventory(this.addLine.bind(this));
 
-      
-      
+    function convertPromiseArrayToStringArray(invArr: Promise<string[][]>){
+      let stringInvArr: string[][] = null;
+
+      stringInvArr = Promise.resolve(invArr).then(result => stringInvArr);
+    
+      return stringInvArr;
+    }
+    
+
+
+    let fixedInventoryArray = convertPromiseArrayToStringArray(invArr);
+    //This is returning the error "cannot read property .length of null"
+    for (let i = 0; i < fixedInventoryArray.length; i++){
+      console.log(fixedInventoryArray[i]) 
+    }
 
 
     }
