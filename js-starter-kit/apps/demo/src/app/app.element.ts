@@ -136,12 +136,12 @@ function displayInventory(){
       }
 
       //TODO add to UI
-      localStorage.setItem("displayInventoryArray", JSON.stringify(invArrString))
+      //localStorage.setItem("displayInventoryArray", JSON.stringify(invArrString))
 
       //David does this to get the contents of the array; based on KEY.
-      //Must reformat to JSON for display purposes.
-      let storedArray = localStorage.getItem("displayInventoryArray")
-      invArrString = JSON.parse(storedArray)
+      //Must reformat from JSON back to Array for display purposes.
+      //let storedArray = localStorage.getItem("displayInventoryArray")
+      //invArrString = JSON.parse(storedArray)
     }
   ).catch(
     error => {
@@ -149,6 +149,7 @@ function displayInventory(){
       error = "There was an error loading the inventory. Please try again."; alert(error)
     }
   )
+    return invArrString
 }
 
 customElements.define('starter-kit-root', AppElement);
