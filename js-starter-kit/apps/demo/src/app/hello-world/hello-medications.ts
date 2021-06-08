@@ -190,7 +190,7 @@ export async function getAvailableInventory (cb = log) {
   }
   
   // returns a 2D JS array, where each row is a med, and each column is a name/dose/quantity in that order
-  return await Promise.resolve(arrOfInventory).then(response => {return arrOfInventory});
+  return arrOfInventory
 
 
 

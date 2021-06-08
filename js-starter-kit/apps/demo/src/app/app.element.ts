@@ -106,48 +106,16 @@ export class AppElement extends CustomElement {
         const elm = this.inputForm.elements.namedItem(name) as HTMLInputElement
         return elm.value
       })
-      // using spred operator creates a linting error
-      
       
       //demo(this.inputValues[0], this.inputValues[1], this.inputValues[2], "johndoenor@gmail.com", this.addLine.bind(this));
       
       //storeDataFromPrescriptionRequest(['alpha', 'beta', 'gamma', 'delta', 'epsilon', 'zeta', 'eta', 
       //'theta', 'iota', 'kappa', 'lambda', 'mu', 'nu', 'xi', 'omicron', 'pi', 'rho', 'sigma', 'tau', 
       //'upsilon', 'fi', 'chi', 'psi', 'omega'], "johndoenor@gmail.com", this.addLine.bind(this))
-
-      // this is app.elements.ts
-      // caller tries to get 2D array from hello-medications.ts
       
       
-      // async function displayInventory(){
-      //   let invArr  = await getAvailableInventory();
-      //   for(let i = 0; i < invArr.length; i++){
-      //     console.log(invArr[i])
-      //   }
-      // }
-      
-    //displayInventory()
-    
-    
-    let invArr = getAvailableInventory(this.addLine.bind(this));
-
-    function convertPromiseArrayToStringArray(invArr: Promise<string[][]>){
-      let stringInvArr: string[][] = null;
-
-      stringInvArr = Promise.resolve(invArr).then(result => stringInvArr);
-    
-      return stringInvArr;
-    }
-    
-
-
-    let fixedInventoryArray = convertPromiseArrayToStringArray(invArr);
-    //This is returning the error "cannot read property .length of null"
-    for (let i = 0; i < fixedInventoryArray.length; i++){
-      console.log(fixedInventoryArray[i]) 
-    }
-
-
+      displayInventory()
+  
     }
   }
   
@@ -155,6 +123,27 @@ export class AppElement extends CustomElement {
     this.init()
   }
 
+}
+
+function displayInventory(){
+    
+  let invArrString = []
+  let invArrPromise = getAvailableInventory(this.addLine.bind(this));
+  invArrPromise.then(
+    value => {
+      for (let i = 0; i < value.length; i++){
+      invArrString.push(value[i])
+      }
+      
+      //TODO add to UI
+
+    }
+  ).catch(
+    error => {
+      invArrString = ["No Inventory - Error"]
+      error = "There was an error loading the inventory. Please try again."; alert(error)
+    }
+  )
 }
 
 customElements.define('starter-kit-root', AppElement);
