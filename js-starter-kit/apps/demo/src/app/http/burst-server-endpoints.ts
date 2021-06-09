@@ -107,13 +107,13 @@ export class BurstChainSDK {
    */
   public async createAsset(
     chainName: string,
-    privateId: string,
+    token: string,
     asset: object,
     assetMetadata: object,
     owners: string[]
   ): Promise<string> {
-
-    const responseJson = await this.chainCall(chainName, privateId, 'POST', '/asset', {
+    console.log("Create Asset:")
+    const responseJson = await this.chainCall(chainName, token, 'POST', '/asset', {
       asset: asset,
       asset_metadata: assetMetadata,
       owners: owners
@@ -306,13 +306,13 @@ export class BurstChainSDK {
    */
   private async chainCall(
     chainName: string,
-    privateId: string,
+    token: string,
     method: string,
     endpoint: string,
     body: object
   ): Promise<any> {
-
-    const reqSpec = this.createChainReqSpec(method, body, privateId);
+    console.log("chaincall")
+    const reqSpec = this.createChainReqSpec(method, body, token);
     const response = await fetch(`${this.utilities.chainURI(this.clientName)}/${chainName}${endpoint}`, reqSpec);
 
     return await this.utilities.processBasicResponse(response);
@@ -327,8 +327,9 @@ export class BurstChainSDK {
   private createChainReqSpec(
     method: string,
     body: object,
-    privateId: string
+    token: string
   ): any {
+    console.log("reqspec")
     const reqSpec = {
       method: method,
       headers: {
@@ -338,7 +339,7 @@ export class BurstChainSDK {
     };
 
     // private id not passed in on generate private id endpoint
-    if (privateId) reqSpec.headers['Authorization'] = `ID ${privateId}`;
+    if (token) reqSpec.headers['Authorization'] = `Bearer ${localStorage.getItem("token")}`;
     if (body) reqSpec['body'] = JSON.stringify(body);
 
     return reqSpec;

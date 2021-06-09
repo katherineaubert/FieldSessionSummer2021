@@ -2,7 +2,7 @@
 import { callbackify } from 'util';
 import './app.element.scss';
 import { CustomElement } from './custom-element'
-import { donationFormSubmission, getAvailableInventory, storeDataFromPrescriptionRequest } from './hello-world/hello-medications'
+import { donationFormSubmission, getAvailableInventory, loginRequest, storeDataFromPrescriptionRequest } from './hello-world/hello-medications'
 
 export class AppElement extends CustomElement {
   public static observedAttributes = [];
@@ -11,7 +11,7 @@ export class AppElement extends CustomElement {
     css
 
     inputForm: HTMLFormElement
-    inputKeys: string[] = ['drugName', 'dose', 'qty']
+    inputKeys: string[] = ['drugName', 'dose', 'qty', 'inputEmail', 'inputPassword']
     inputValues: string[]
     lines: string[] = [] // you may need an = [] at the end but maybe not im not sure
 
@@ -70,6 +70,14 @@ export class AppElement extends CustomElement {
             <input type="text" id="qty" name="qty" required size="30">
           </div>
           <div>
+            <input id="inputEmail" type="text" name="username" placeholder="name@example.com" /> <!--Text field for Username-->
+            <label for="inputEmail">Email Address</label> <!--Label for text field-->
+          </div>
+          <div>
+            <input id="inputPassword" type="password" name="password" placeholder="Enter your password..." /> <!--Text field for Dosage Strength-->
+            <label for="inputPassword">Password</label> <!--Label for text field-->
+          </div>
+          <div>
             <button id="runDemo" type="submit">Donate Pills</button>
           </div>
         </form>
@@ -79,7 +87,6 @@ export class AppElement extends CustomElement {
           <data-repeater data-bind="data:lines"></data-repeater>
         </details>
 
-        <p id="demo"></p>
 
       </main>
     `;
@@ -109,9 +116,11 @@ export class AppElement extends CustomElement {
         const elm = this.inputForm.elements.namedItem(name) as HTMLInputElement
         return elm.value
       })
+      
+      loginRequest(this.inputValues[3], this.inputValues[4])
 
       donationFormSubmission(this.inputValues[0], this.inputValues[1], this.inputValues[2], "johndoenor@gmail.com", this.addLine.bind(this));
-
+      console.log("donation submitted")
       storeDataFromPrescriptionRequest(['alpha', 'beta', 'gamma', 'delta', 'epsilon', 'zeta', 'eta',
       'theta', 'iota', 'kappa', 'lambda', 'mu', 'nu', 'xi', 'omicron', 'pi', 'rho', 'sigma', 'tau',
       'upsilon', 'fi', 'chi', 'psi', 'omega'], "johndoenor@gmail.com", this.addLine.bind(this))

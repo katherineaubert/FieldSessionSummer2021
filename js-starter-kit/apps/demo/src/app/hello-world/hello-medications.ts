@@ -10,22 +10,33 @@ const log = (line) => console.log(line)
 
 
 export async function loginRequest(username: string, password: string){
-  
-  
+  console.log("Function accessed")
   //create the burst chain client as a global variable
   const chainClient = new BurstChainSDK('https://testnet.burstiq.com', 'mines_summer');
 
+  //Login request to API, no longer needs chainClient
   const reqSpec = {
     method: 'POST',
     headers: {
       'accept': 'application/json',
       'Content-Type': 'application/json'
-    }
+      //'Authorization': 'Bearer ${localStoragetoken'
+    },
+    body: `{"username": "${username}", "password": "${password}"}` //TODO check if this works
   };
 
-  const response = await fetch(`${this.utilities.chainURI(this.clientName)}/api/userauth/login`, reqSpec);
-
+  //Gets API response
+  fetch('https://testnet.burstiq.com/api/userauth/login', reqSpec)
+  .then(resp => resp.json())
+  .then(data => putTokenInLocalStorage(data))
+  
 }
+
+//Take in response and store the JWT token in localstorage
+function putTokenInLocalStorage(data){
+  localStorage.setItem("token", JSON.stringify(data.token))
+}
+
 
 
 //takes the user input from the donation form and uses it to create an asset on the medication blockchain
@@ -35,12 +46,14 @@ export async function donationFormSubmission(drugName: string, dose: string, qua
   const chainClient = new BurstChainSDK('https://testnet.burstiq.com', 'mines_summer');
 
   //set inventory ID Pair
-  const privateIdInventory = 'c50188204aecb09d';
-  let publicIdInventory = await getInventoryPublicId(chainClient, privateIdInventory);
+  // const privateIdInventory = 'c50188204aecb09d';
+  // let publicIdInventory = await getInventoryPublicId(chainClient, privateIdInventory);
  
-  //get user ID pair from email
-  let privateIdUser = await getUserPrivateId(userEmail, chainClient, userDictionary, privateIdInventory, publicIdInventory, cb = log)
-  let publicIdUser = await getUserPublicId(chainClient, privateIdUser)
+  // //get user ID pair from email
+  // let privateIdUser = await getUserPrivateId(userEmail, chainClient, userDictionary, privateIdInventory, publicIdInventory, cb = log)
+  // let publicIdUser = await getUserPublicId(chainClient, privateIdUser)
+  let privateIdUser = ""
+  let publicIdUser = "a33a569382be82588775ba9dcce2522399039c19"
 
   //Add the user donation to the blockchain
   let donationAssetId = await addDonation(drugName, dose, quantity, chainClient, medicationsDictionary, privateIdUser, publicIdUser)
