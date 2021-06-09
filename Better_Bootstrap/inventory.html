@@ -38,7 +38,6 @@
             integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc="
             crossorigin="anonymous">
     </script>
-    <script src="../js-starter-kit/apps/demo/src/app/app.element.ts"></script>
 </head>
     <body id="page-top">
         <!--****************-->
@@ -91,9 +90,10 @@
 			<script type="module">
 				var myArray = [["funnyDrugName", "100", "30"]]
 
-				import {displayInventory} from '../js-starter-kit/apps/demo/src/app/app.element.ts'
+			//	import {displayInventory} from '../js-starter-kit/apps/demo/src/app/app.element.js'
 
-				myArray = await displayInventory()
+				//is this a promise?
+				myArray = await getAvailableInventory()
 				myArray.then(function(data) {
 				buildTable(data);
 				})
@@ -106,14 +106,16 @@
 						    <td>
 							    <!--View Button-->
 									<button class="morebtn btn btn-primary" data-toggle="modal" data-target="#drugModal">
-									    View
-									</button>
+							    View
+								</button>
 						    </td>
 										<td class="drugName">${data[i][0]}</td>
 										<td class="drugDose">${data[i][1]}</td>
 										<td class="drugQty">${data[i][1]}</td>
 								  </tr>`
 						table.innerHTML += row
+
+
 					}
 				}
 
@@ -208,5 +210,6 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/SimpleLightbox/2.1.0/simpleLightbox.min.js"></script>
         <!-- Core theme JS-->
         <script src="js/scripts.js"></script>
+	<script src='../js-starter-kit/apps/demo/src/app/hello-world/hello-medications.js'></script>
     </body>
 </html>
