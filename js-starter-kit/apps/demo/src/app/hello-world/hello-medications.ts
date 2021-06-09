@@ -9,7 +9,23 @@ import { parse } from "querystring";
 const log = (line) => console.log(line)
 
 
+export async function loginRequest(username: string, password: string){
+  
+  
+  //create the burst chain client as a global variable
+  const chainClient = new BurstChainSDK('https://testnet.burstiq.com', 'mines_summer');
 
+  const reqSpec = {
+    method: 'POST',
+    headers: {
+      'accept': 'application/json',
+      'Content-Type': 'application/json'
+    }
+  };
+
+  const response = await fetch(`${this.utilities.chainURI(this.clientName)}/api/userauth/login`, reqSpec);
+
+}
 
 
 //takes the user input from the donation form and uses it to create an asset on the medication blockchain
