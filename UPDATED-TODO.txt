@@ -1,0 +1,25 @@
+//////////////////
+//TODO 4 LINKING//
+//////////////////
+
+- Call displayInventory() to create inventory table in html
+- Call donationFormSubmission() to add medication from donation form to the medications dictionary
+- Call storeDataFromPrescriptionRequest() to add prescription from recipient form to the user dictionary
+- Call transferToInventory() to transfer ownership from donor to inventory upon shipping (status pending)
+     - Update status to available upon pharmacist approval
+- Call transferFromInventory() to to transfer ownership from inventory to recipient upon prescription approval
+
+//////////////////////
+//TODO 4 REFACTORING//
+//////////////////////
+
+- Ensure that all files, method, and variable names are self-explanatory
+- Properly document all code with comments and project readme file
+    - May be useful to note what each file accomplishes for future devs to see and immediately understand
+- Delete test data to clear the blockchains
+
+////////////////
+//TODO 4 CLASS//
+////////////////
+
+- Prepare a demo run of the code for the final presentation
