@@ -191,10 +191,6 @@ export async function getAvailableInventory () {
   
   // returns a 2D JS array, where each row is a med, and each column is a name/dose/quantity in that order
   return arrOfInventory
-
-
-
-  //return Promise.resolve(arrOfInventory).then(response => cb(response))
 }
 
 
@@ -207,17 +203,3 @@ export async function getPendingInventory () {
 export async function pharmacistApproval (asset) {
   //TODO
 }
-
-
-//Homepage: User Creates Account. Temporarily out of scope.
-export async function userCreateAccount(userName: string, password: string, cb = log) {
-
-  cb('\n'
-    + '--------------------------------------------------------------\n'
-    + 'Burst Chain Client - Hello Medications Demo\n'
-    + 'Copyright (c) 2015-2021 BurstIQ, Inc.\n'
-    + '--------------------------------------------------------------\n')
-
-
-}
-
