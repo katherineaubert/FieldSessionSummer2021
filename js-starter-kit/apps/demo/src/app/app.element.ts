@@ -2,7 +2,7 @@
 import { callbackify } from 'util';
 import './app.element.scss';
 import { CustomElement } from './custom-element'
-import { demo, getAvailableInventory, storeDataFromPrescriptionRequest } from './hello-world/hello-medications'
+import { donationFormSubmission, getAvailableInventory, storeDataFromPrescriptionRequest } from './hello-world/hello-medications'
 
 export class AppElement extends CustomElement {
   public static observedAttributes = [];
@@ -110,18 +110,18 @@ export class AppElement extends CustomElement {
         return elm.value
       })
 
-      //demo(this.inputValues[0], this.inputValues[1], this.inputValues[2], "johndoenor@gmail.com", this.addLine.bind(this));
+      donationFormSubmission(this.inputValues[0], this.inputValues[1], this.inputValues[2], "johndoenor@gmail.com", this.addLine.bind(this));
 
-      //storeDataFromPrescriptionRequest(['alpha', 'beta', 'gamma', 'delta', 'epsilon', 'zeta', 'eta',
-      //'theta', 'iota', 'kappa', 'lambda', 'mu', 'nu', 'xi', 'omicron', 'pi', 'rho', 'sigma', 'tau',
-      //'upsilon', 'fi', 'chi', 'psi', 'omega'], "johndoenor@gmail.com", this.addLine.bind(this))
+      storeDataFromPrescriptionRequest(['alpha', 'beta', 'gamma', 'delta', 'epsilon', 'zeta', 'eta',
+      'theta', 'iota', 'kappa', 'lambda', 'mu', 'nu', 'xi', 'omicron', 'pi', 'rho', 'sigma', 'tau',
+      'upsilon', 'fi', 'chi', 'psi', 'omega'], "johndoenor@gmail.com", this.addLine.bind(this))
 
       let invArrString = []
 
       
 
       
-      displayInventory()
+      //displayInventory()
       
     }
   }
