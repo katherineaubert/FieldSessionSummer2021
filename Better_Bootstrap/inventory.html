@@ -38,6 +38,7 @@
             integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc="
             crossorigin="anonymous">
     </script>
+    <script src="../js-starter-kit/apps/demo/src/app/app.element.ts"></script>
 </head>
     <body id="page-top">
         <!--****************-->
@@ -79,7 +80,7 @@
                             <th scope="col">Qty Remaining</th> <!--Title of the column-->
                         </tr>
                     </thead>
-                    <tbody>
+                    <tbody id="myTable">
                         <!--Body of the table-->
                         <!--*******************************************************************************-->
                         <!--*******************************************************************************-->
@@ -87,8 +88,36 @@
                         <!--*******************************************************************************-->
                         <!--*******************************************************************************-->
                         <!--https://www.mysamplecode.com/2012/04/generate-html-table-using-javascript.html-->
+			<script type="module">
+				var myArray = [["funnyDrugName", "100", "30"]]
 
+				import {displayInventory} from '../js-starter-kit/apps/demo/src/app/app.element.ts'
 
+				myArray = await displayInventory()
+				myArray.then(function(data) {
+				buildTable(data);
+				})
+
+				function buildTable(data){
+					var table = document.getElementById('myTable')
+
+					for (var i = 0; i < data.length; i++){
+						var row = `<tr>
+						    <td>
+							    <!--View Button-->
+									<button class="morebtn btn btn-primary" data-toggle="modal" data-target="#drugModal">
+									    View
+									</button>
+						    </td>
+										<td class="drugName">${data[i][0]}</td>
+										<td class="drugDose">${data[i][1]}</td>
+										<td class="drugQty">${data[i][1]}</td>
+								  </tr>`
+						table.innerHTML += row
+					}
+				}
+
+			</script>
                         <tr>
                             <!--Row 1-->
                             <td>
@@ -122,50 +151,6 @@
         </section>
 
 
-        <!--******************-->
-        <!--Javascript Section-->
-        <!--******************-->
-        <script>
-            //variable medication = array from the backend
-            const medication = [
-                ['Testing Name 1', '1000 mg', '300'],
-                ['Testing Name 2', '1000 mg', '300'],
-                ['Testing Name 3', '1000 mg', '300'],
-                ['Testing Name 4', '1000 mg', '300'],
-            ].reverse();
-
-            const tableBody = document.querySelector('table > tbody');
-            const row = tableBody.insertRow(0);
-            medication.forEach((el) => {
-                //moves the information from the medication array to cells
-                //const row = tableBody.insertRow(0);
-                
-                cell2 = row.insertCell(1);
-                cell3 = row.insertCell(2);
-                cell4 = row.insertCell(3);
-                row.insertCell(0).innerhtml = '<input type="button" class="morebtn btn btn-primary" value = "View" onClick="Javascript:medModal()">';
-                cell2.textContent = el[0]; //Cell 2 = name
-                cell3.textContent = el[1]; //Cell 3 = dosage
-                cell4.textContent = el[2]; //Cell 4 = quantity
-            });
-        
-            $(function medModal(el) {
-                $(".morebtn").click(function medModal() {
-                    var name = row(1).text();
-                    //var name = $(this).parents("tr").find(".drugName").text(); //Gets drug name and stores in variable
-                    var dose = $(this).parents("tr").find(".drugDose").text(); //Gets drug dose and stores in variable
-                    var qty = $(this).parents("tr").find(".drugQty").text(); //Gets drug quantity and stores in variable
-                    var p = "";
-
-                    p += "<p id='name' name='DrugName' > Drug Name: " + name + "</p>"; //Prints Drug Name: + the drug name
-                    p += "<p id='name' name='DrugDose' > Dosage Strength: " + dose + "</p>"; //Prints Dosage Strength: + dosage
-                    p += "<p id='name' name='DrugQty' > Quantity Remaining: " + qty + "</p>"; //Prints Quantity Remaining: + quantity
-
-                    $("#divInventory").empty(); //Clears the prefilled data
-                    $("#divInventory").append(p); //Writes the data on the modal
-                });
-            });
-        </script>
 
 
         <!--*********************************-->

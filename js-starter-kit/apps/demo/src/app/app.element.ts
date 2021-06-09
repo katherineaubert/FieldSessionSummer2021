@@ -142,7 +142,7 @@ function displayInventory(){
         }
         for (let i = 0; i < invArrString.length; i++){
           console.log(invArrString[i]);
-          document.write(invArrString[i]);
+          //document.write(invArrString[i]);
          
         }
       
