@@ -20,9 +20,9 @@ export async function loginRequest(username: string, password: string){
     headers: {
       'accept': 'application/json',
       'Content-Type': 'application/json'
-      //'Authorization': 'Bearer ${localStoragetoken'
+      //'Authorization': 'Bearer ${localStoragetoken}'
     },
-    body: `{"username": "${username}", "password": "${password}"}` //TODO check if this works
+    body: `{"username": "${username}", "password": "${password}"}`
   };
 
   //Gets API response
@@ -43,7 +43,7 @@ function putTokenInLocalStorage(data){
 export async function donationFormSubmission(drugName: string, dose: string, quantity: string, userEmail: string, cb = log) {
   
   //create the burst chain client as a global variable
-  const chainClient = new BurstChainSDK('https://testnet.burstiq.com', 'mines_summer');
+  //const chainClient = new BurstChainSDK('https://testnet.burstiq.com', 'mines_summer');
 
   //set inventory ID Pair
   // const privateIdInventory = 'c50188204aecb09d';
@@ -52,11 +52,12 @@ export async function donationFormSubmission(drugName: string, dose: string, qua
   // //get user ID pair from email
   // let privateIdUser = await getUserPrivateId(userEmail, chainClient, userDictionary, privateIdInventory, publicIdInventory, cb = log)
   // let publicIdUser = await getUserPublicId(chainClient, privateIdUser)
-  let privateIdUser = ""
-  let publicIdUser = "a33a569382be82588775ba9dcce2522399039c19"
+  
+  //Donor public ID is hard-coded
+  let publicIdUser = "a33a569382be82588775ba9dcce2522399039c19" 
 
   //Add the user donation to the blockchain
-  let donationAssetId = await addDonation(drugName, dose, quantity, chainClient, medicationsDictionary, privateIdUser, publicIdUser)
+  let donationAssetId = await addDonation(drugName, dose, quantity, publicIdUser)
 
   cb(`Donation added. Asset ID: ${donationAssetId}`)
 }
@@ -87,9 +88,6 @@ export async function getUserPrivateId (userEmail, chainClient, userDictionary, 
 
 
 
-
-
-
 //return the user's public id
 export async function getUserPublicId (chainClient, privateIdUser) {
   let publicIdUser = await chainClient.getPublicId(privateIdUser);
@@ -101,21 +99,36 @@ export async function getUserPublicId (chainClient, privateIdUser) {
 
 
 //create an asset on the medications blockchain, called when the donation form is filled out
-export async function addDonation (drug_name, dose, quantity, chainClient, medicationsDictionary, privateIdUser, publicIdUser){
+export async function addDonation (drug_name, dose, quantity, publicIdUser){
   const asset = {
     drug_name: drug_name,
     dose: dose,
     quantity: quantity
   };
 
-  const assetMetadata = {
-    loaded_by: 'hello medications demo'
+  const reqSpec = {
+    method: 'POST',
+    headers: {
+      'accept': 'application/json',
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${localStorage.get("token")}`
+    },
+    body: `{"owners": ["${publicIdUser}"], "asset": ${asset}}`
   };
 
-  const firstAssetId = await chainClient.createAsset(medicationsDictionary.collection, privateIdUser, asset, assetMetadata,
-    [publicIdUser]);
+  //Gets API response
+  fetch('https://testnet.burstiq.com/api/burstchain/mines_summer/Medications/asset', reqSpec)
+  .then(resp => resp.json())
+  .then(data => putTokenInLocalStorage(data)) //TODO do something with asset id returned
 
-  return firstAssetId;
+  // const assetMetadata = {
+  //   loaded_by: 'hello medications demo'
+  // };
+
+  // const firstAssetId = await chainClient.createAsset(medicationsDictionary.collection, privateIdUser, asset, assetMetadata,
+  //   [publicIdUser]);
+
+  //return firstAssetId;
 }
 
 
