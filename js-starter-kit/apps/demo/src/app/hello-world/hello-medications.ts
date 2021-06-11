@@ -10,17 +10,14 @@ const log = (line) => console.log(line)
 
 
 export async function loginRequest(username: string, password: string){
-  console.log("Function accessed")
-  //create the burst chain client as a global variable
-  //const chainClient = new BurstChainSDK('https://testnet.burstiq.com', 'mines_summer');
-
+  localStorage.setItem("email", username);
+  
   //Login request to API, no longer needs chainClient
   const reqSpec = {
     method: 'POST',
     headers: {
       'accept': 'application/json',
       'Content-Type': 'application/json'
-      //'Authorization': 'Bearer ${localStoragetoken}'
     },
     body: `{"username": "${username}", "password": "${password}"}`
   };
@@ -32,6 +29,8 @@ export async function loginRequest(username: string, password: string){
   
 }
 
+
+
 //Take in response and store the JWT token in localstorage
 function putTokenInLocalStorage(data){
   localStorage.setItem("token", JSON.stringify(data.token))
@@ -39,67 +38,13 @@ function putTokenInLocalStorage(data){
 
 
 
-//takes the user input from the donation form and uses it to create an asset on the medication blockchain
-export async function donationFormSubmission(drugName: string, dose: string, quantity: string, userEmail: string, cb = log) {
-  
-  //create the burst chain client as a global variable
-  //const chainClient = new BurstChainSDK('https://testnet.burstiq.com', 'mines_summer');
-
-  //set inventory ID Pair
-  // const privateIdInventory = 'c50188204aecb09d';
-  // let publicIdInventory = await getInventoryPublicId(chainClient, privateIdInventory);
- 
-  // //get user ID pair from email
-  // let privateIdUser = await getUserPrivateId(userEmail, chainClient, userDictionary, privateIdInventory, publicIdInventory, cb = log)
-  // let publicIdUser = await getUserPublicId(chainClient, privateIdUser)
-  
-  //Donor public ID is hard-coded
-  let publicIdUser = "a33a569382be82588775ba9dcce2522399039c19" 
-
-  //Add the user donation to the blockchain
-  await addDonation(drugName, dose, quantity, publicIdUser)
-
-}
-
-
-
-
-
-//get the inventory public id based on the private id
-export async function getInventoryPublicId (chainClient, privateIdInventory) {
-  let publicIdInventory = await chainClient.getPublicId(privateIdInventory);
-  return publicIdInventory;
-}
-
-
-
-
-
-//get the user's private id based on their email in the user blockchain
-export async function getUserPrivateId (userEmail, chainClient, userDictionary, privateIdInventory, publicIdInventory, cb = log) {
-  const tql = `SELECT asset.private_id FROM RemedichainUsers WHERE asset.user_email = '${userEmail}'`;
-  let userAssets: Asset[] = await chainClient.query(userDictionary.collection, privateIdInventory, tql);
-  
-  const privateIdUser = userAssets[0].asset.private_id;
-
-  return privateIdUser
-}
-
-
-
-//return the user's public id
-export async function getUserPublicId (chainClient, privateIdUser) {
-  let publicIdUser = await chainClient.getPublicId(privateIdUser);
-
-  return publicIdUser
-}
-
-
-
 
 //create an asset on the medications blockchain, called when the donation form is filled out
-export async function addDonation (drug_name, dose, quantity, publicIdUser){
+export async function addDonation (drug_name, dose, quantity){
   
+  //donor public ID is hard-coded
+  let publicIdUser = "a33a569382be82588775ba9dcce2522399039c19" 
+
   const reqSpec = {
     method: 'POST',
     headers: {
@@ -113,19 +58,14 @@ export async function addDonation (drug_name, dose, quantity, publicIdUser){
   //Gets API response
   fetch('https://testnet.burstiq.com/api/burstchain/mines_summer/Medications/asset', reqSpec)
   .then(resp => resp.json())
-  //.then(assetId => assetId.asset_id)
   .then(data => console.log(data))
-
-  // const assetMetadata = {
-  //   loaded_by: 'hello medications demo'
-  // };
-
-  // const firstAssetId = await chainClient.createAsset(medicationsDictionary.collection, privateIdUser, asset, assetMetadata,
-  //   [publicIdUser]);
 
 }
 
 
+
+
+//Query Medications with a specfic asset ID
 function queryByAssetId(data){
   const reqSpec = {
     method: 'POST',
@@ -134,13 +74,16 @@ function queryByAssetId(data){
       'Content-Type': 'application/json',
       'Authorization': `Bearer ${localStorage.getItem("token")}`
     },
-    body: `{"queryTql": "SELECT * from Medications WHERE asset_id = '${data}'"}`
+    body: `{"queryTql": "SELECT * FROM Medications WHERE asset_id = '${data}'"}`
   };
 
   fetch('https://testnet.burstiq.com/api/burstchain/mines_summer/Medications/assets/query', reqSpec)
   .then(resp => resp.json())
   .then(data => console.log(data))
 }
+
+
+
 
 
 
@@ -161,13 +104,12 @@ export async function transferToInventory (assetId, chainClient, medicationsDict
 
 //create a 2D array of strings to display the available inventory assets 
 export async function getAvailableInventory () {
-  //create the burst chain client as a global variable
-  const chainClient = new BurstChainSDK('https://testnet.burstiq.com', 'mines_summer');
-  //set inventory ID Pair
+  
+  //set inventory private ID
   const privateIdInventory = 'c50188204aecb09d';
 
-  const tqlPrintInv = `SELECT * FROM Medications WHERE asset.status = 'Approved'`;
-  const inventory: Asset[] = await chainClient.query(medicationsDictionary.collection, privateIdInventory, tqlPrintInv);
+  let inventory = await queryForInventory(privateIdInventory, "Approved")
+  inventory = inventory.json();
   let arrOfInventory = Array.from(Array(inventory.length), () => new Array(3));
   for (let i = 0; i < inventory.length; i++) {
 
@@ -179,6 +121,28 @@ export async function getAvailableInventory () {
   //returns a 2D JS array, where each row is a med, and each column is a name/dose/quantity in that order
   return arrOfInventory
 }
+
+
+
+
+
+//query for the array of medications in inventory matching the specified status
+async function queryForInventory(privateIdInventory, status){
+  const reqSpec = {
+    method: 'POST',
+    headers: {
+      'accept': 'application/json',
+      'Content-Type': 'application/json',
+      'Authorization': `ID ${privateIdInventory}`
+    },
+    body: `{"queryTql": "SELECT * FROM Medications WHERE asset.status = '${status}'"}`
+  };
+
+  let userAssets = await fetch('https://testnet.burstiq.com/api/burstchain/mines_summer/Medications/assets/query', reqSpec)
+  return userAssets;
+}
+
+
 
 
 
@@ -195,8 +159,11 @@ export async function transferFromInventory (assetId, chainClient, medicationsDi
 
 
 
+
+
+
 //adds a prescription to a user's data on the user blockchain after they fill out a presciption request form
-export async function storeDataFromPrescriptionRequest(inputValues: string[], userEmail: string, cb = log){
+export async function addUserPrescription(inputValues: string[]){
   //TODO move this constructor up a level to be created within the HTML file where the inputValues array exists
   const prescription = {
     patient_contact: {
@@ -238,27 +205,54 @@ export async function storeDataFromPrescriptionRequest(inputValues: string[], us
     status: "Pending"
   };
 
-  //create the burst chain client as a global variable
-  const chainClient = new BurstChainSDK('https://testnet.burstiq.com', 'mines_summer');
-
-  //set inventory ID Pair
+  //set inventory private ID
   const privateIdInventory = 'c50188204aecb09d';
- 
-  //get the user asset from their email
-  const tql = `SELECT * FROM RemedichainUsers WHERE asset.user_email = '${userEmail}'`;
-  let userAssets: Asset[] = await chainClient.query(userDictionary.collection, privateIdInventory, tql);
-  
-  let asset = userAssets[0].asset;
 
-  //get the id of the user asset
-  let firstAssetId = userAssets[0].asset_id;
+  let userAsset = await queryByUserEmail(privateIdInventory, localStorage.getItem("email"))
 
   //update the user to add this prescription:
-  asset.prescriptions.push(prescription);
+  userAsset.prescriptions.push(prescription);
 
-  //update the asset by adding the new prescription to the array of prescriptions
-  let tmpId = await chainClient.updateAsset(userDictionary.collection, privateIdInventory, firstAssetId, asset, null);
+  //TODO update asset body
+  const reqSpec = {
+    method: 'PUT',
+    headers: {
+      'accept': 'application/json',
+      'Content-Type': 'application/json',
+      'Authorization': `ID ${privateIdInventory}`
+    },
+    body: ``
+  };
+
+  //Gets API response
+  fetch('https://testnet.burstiq.com/api/burstchain/mines_summer/RemedichainUsers/asset', reqSpec)
+  .then(resp => resp.json())
+  .then(data => console.log(data))
+
 }
+
+
+
+
+
+//Check RemedichainUsers dictionary for the user asset based off of the email of the current user logged in
+async function queryByUserEmail(privateIdInventory, userEmail){
+  const reqSpec = {
+    method: 'POST',
+    headers: {
+      'accept': 'application/json',
+      'Content-Type': 'application/json',
+      'Authorization': `ID ${privateIdInventory}`
+    },
+    body: `{"queryTql": "SELECT * FROM RemedichainUsers WHERE asset.user_email = '${userEmail}'"}`
+  };
+
+  let userAssets = await fetch('https://testnet.burstiq.com/api/burstchain/mines_summer/RemedichainUsers/assets/query', reqSpec)
+  let userAsset = userAssets[0].asset;
+  return userAsset;
+}
+
+
 
 
 
@@ -278,6 +272,10 @@ export async function getPendingInventory () {
    *              status, this should query for the assets with a pending status.
    */
 }
+
+
+
+
 
 //called when a pharmacist user clicks the button to approve medications for inventory
 export async function pharmacistApproval (asset) {

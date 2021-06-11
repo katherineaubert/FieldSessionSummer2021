@@ -2,7 +2,7 @@
 import { callbackify } from 'util';
 import './app.element.scss';
 import { CustomElement } from './custom-element'
-import { donationFormSubmission, getAvailableInventory, loginRequest, storeDataFromPrescriptionRequest } from './hello-world/hello-medications'
+import { addDonation, addUserPrescription, getAvailableInventory, loginRequest } from './hello-world/hello-medications'
 
 export class AppElement extends CustomElement {
   public static observedAttributes = [];
@@ -119,16 +119,14 @@ export class AppElement extends CustomElement {
       
       loginRequest(this.inputValues[3], this.inputValues[4])
 
-      donationFormSubmission(this.inputValues[0], this.inputValues[1], this.inputValues[2], "johndoenor@gmail.com", this.addLine.bind(this));
+      addDonation(this.inputValues[0], this.inputValues[1], this.inputValues[2]);
       console.log("donation submitted")
-      storeDataFromPrescriptionRequest(['alpha', 'beta', 'gamma', 'delta', 'epsilon', 'zeta', 'eta',
+
+      addUserPrescription(['alpha', 'beta', 'gamma', 'delta', 'epsilon', 'zeta', 'eta',
       'theta', 'iota', 'kappa', 'lambda', 'mu', 'nu', 'xi', 'omicron', 'pi', 'rho', 'sigma', 'tau',
-      'upsilon', 'fi', 'chi', 'psi', 'omega'], "johndoenor@gmail.com", this.addLine.bind(this))
+      'upsilon', 'fi', 'chi', 'psi', 'omega'])
 
       let invArrString = []
-
-      
-
       
       //displayInventory()
       
