@@ -12,7 +12,7 @@ const log = (line) => console.log(line)
 export async function loginRequest(username: string, password: string){
   console.log("Function accessed")
   //create the burst chain client as a global variable
-  const chainClient = new BurstChainSDK('https://testnet.burstiq.com', 'mines_summer');
+  //const chainClient = new BurstChainSDK('https://testnet.burstiq.com', 'mines_summer');
 
   //Login request to API, no longer needs chainClient
   const reqSpec = {
@@ -57,9 +57,8 @@ export async function donationFormSubmission(drugName: string, dose: string, qua
   let publicIdUser = "a33a569382be82588775ba9dcce2522399039c19" 
 
   //Add the user donation to the blockchain
-  let donationAssetId = await addDonation(drugName, dose, quantity, publicIdUser)
+  await addDonation(drugName, dose, quantity, publicIdUser)
 
-  cb(`Donation added. Asset ID: ${donationAssetId}`)
 }
 
 
@@ -100,26 +99,22 @@ export async function getUserPublicId (chainClient, privateIdUser) {
 
 //create an asset on the medications blockchain, called when the donation form is filled out
 export async function addDonation (drug_name, dose, quantity, publicIdUser){
-  const asset = {
-    drug_name: drug_name,
-    dose: dose,
-    quantity: quantity
-  };
-
+  
   const reqSpec = {
     method: 'POST',
     headers: {
       'accept': 'application/json',
       'Content-Type': 'application/json',
-      'Authorization': `Bearer ${localStorage.get("token")}`
+      'Authorization': `Bearer ${localStorage.getItem("token")}`
     },
-    body: `{"owners": ["${publicIdUser}"], "asset": ${asset}}`
+    body: `{"owners": ["${publicIdUser}"], "asset": {"drug_name": "${drug_name}", "dose": "${dose}", "quantity": "${quantity}"}}`
   };
 
   //Gets API response
   fetch('https://testnet.burstiq.com/api/burstchain/mines_summer/Medications/asset', reqSpec)
   .then(resp => resp.json())
-  .then(data => putTokenInLocalStorage(data)) //TODO do something with asset id returned
+  //.then(assetId => assetId.asset_id)
+  .then(data => console.log(data))
 
   // const assetMetadata = {
   //   loaded_by: 'hello medications demo'
@@ -128,11 +123,24 @@ export async function addDonation (drug_name, dose, quantity, publicIdUser){
   // const firstAssetId = await chainClient.createAsset(medicationsDictionary.collection, privateIdUser, asset, assetMetadata,
   //   [publicIdUser]);
 
-  //return firstAssetId;
 }
 
 
+function queryByAssetId(data){
+  const reqSpec = {
+    method: 'POST',
+    headers: {
+      'accept': 'application/json',
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${localStorage.getItem("token")}`
+    },
+    body: `{"queryTql": "SELECT * from Medications WHERE asset_id = '${data}'"}`
+  };
 
+  fetch('https://testnet.burstiq.com/api/burstchain/mines_summer/Medications/assets/query', reqSpec)
+  .then(resp => resp.json())
+  .then(data => console.log(data))
+}
 
 
 
