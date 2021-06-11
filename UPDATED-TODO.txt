@@ -2,12 +2,22 @@
 //TODO 4 LINKING//
 //////////////////
 
-- Call displayInventory() to create inventory table in html
-- Call donationFormSubmission() to add medication from donation form to the medications dictionary
-- Call storeDataFromPrescriptionRequest() to add prescription from recipient form to the user dictionary
-- Call transferToInventory() to transfer ownership from donor to inventory upon shipping (status pending)
-     - Update status to available upon pharmacist approval
-- Call transferFromInventory() to to transfer ownership from inventory to recipient upon prescription approval
+?- Fix displayInventory/getAvailableInventory query API Call
+2min- Copy fixed displayInventory code into getPendingInventory to have that functionality set up
+5min- Add query by Asset Id to get and update newly created status w/ status Approved upon pharma demo button click
+5min- Fix code for transferFromInventory
+
+?- Link displayInventory to David's html
+?- Link addDonation to David's html (transfer to inventory automatic upon donation addition, status = Pending)
+?- Link loginRequest to David's html
+?- Link addUserPrescription to David's html
+
+1min- Add demo button for pharmacist to change asset status to approved
+        
+
+        NOTE: Pharma user would also need
+            - a screen to view pending inventory w/ buttons to call transferFromInventory()
+            - a screen to see user prescription requests
 
 //////////////////////
 //TODO 4 REFACTORING//

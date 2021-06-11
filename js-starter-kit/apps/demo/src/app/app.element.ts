@@ -78,7 +78,10 @@ export class AppElement extends CustomElement {
             <label for="inputPassword">Password</label> <!--Label for text field-->
           </div>
           <div>
-            <button id="runDemo" type="submit">Donate Pills</button>
+            <button id="runDemo" type="submit">Login</button>
+          </div>
+          <div>
+            <button id="runDemoTwo" type="submit">Donate</button>
           </div>
         </form>
 
@@ -100,6 +103,8 @@ export class AppElement extends CustomElement {
     // server.value = 'https://testnet.burstiq.com'
     this.inputForm.addEventListener('submit', e => e.preventDefault())
     this.shadowRoot.querySelector('#runDemo').addEventListener('click', this.runDemo.bind(this))
+
+    this.shadowRoot.querySelector('#runDemoTwo').addEventListener('click', this.runDemoTwo.bind(this))
   }
 
   addLine(line) {
@@ -118,9 +123,20 @@ export class AppElement extends CustomElement {
       })
       
       loginRequest(this.inputValues[3], this.inputValues[4])
+    }
+  }
+
+
+  runDemoTwo() {
+    console.log('Running Demo 2:');
+    this.lines = []
+    if (this.inputForm.checkValidity()) {
+      this.inputValues = this.inputKeys.map(name => {
+        const elm = this.inputForm.elements.namedItem(name) as HTMLInputElement
+        return elm.value
+      })
 
       addDonation(this.inputValues[0], this.inputValues[1], this.inputValues[2]);
-      console.log("donation submitted")
 
       addUserPrescription(['alpha', 'beta', 'gamma', 'delta', 'epsilon', 'zeta', 'eta',
       'theta', 'iota', 'kappa', 'lambda', 'mu', 'nu', 'xi', 'omicron', 'pi', 'rho', 'sigma', 'tau',

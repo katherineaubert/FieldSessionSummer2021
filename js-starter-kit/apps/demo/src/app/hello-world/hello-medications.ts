@@ -33,7 +33,7 @@ export async function loginRequest(username: string, password: string){
 
 //Take in response and store the JWT token in localstorage
 function putTokenInLocalStorage(data){
-  localStorage.setItem("token", JSON.stringify(data.token))
+  localStorage.setItem("token", data.token)
 }
 
 
@@ -52,13 +52,14 @@ export async function addDonation (drug_name, dose, quantity){
       'Content-Type': 'application/json',
       'Authorization': `Bearer ${localStorage.getItem("token")}`
     },
-    body: `{"owners": ["${publicIdUser}"], "asset": {"drug_name": "${drug_name}", "dose": "${dose}", "quantity": "${quantity}"}}`
+    body: `{"owners": ["${publicIdUser}"], "asset": {"drug_name": "${drug_name}", "dose": "${dose}", "quantity": "${quantity}", "status": "Pending"}}`
   };
 
   //Gets API response
   fetch('https://testnet.burstiq.com/api/burstchain/mines_summer/Medications/asset', reqSpec)
   .then(resp => resp.json())
-  .then(data => console.log(data))
+  .then(data => data.asset_id)
+  .then(assetId => transferToInventory(assetId))
 
 }
 
@@ -66,7 +67,7 @@ export async function addDonation (drug_name, dose, quantity){
 
 
 //Query Medications with a specfic asset ID
-function queryByAssetId(data){
+function queryByAssetId(assetId){
   const reqSpec = {
     method: 'POST',
     headers: {
@@ -74,7 +75,7 @@ function queryByAssetId(data){
       'Content-Type': 'application/json',
       'Authorization': `Bearer ${localStorage.getItem("token")}`
     },
-    body: `{"queryTql": "SELECT * FROM Medications WHERE asset_id = '${data}'"}`
+    body: `{"queryTql": "SELECT * FROM Medications WHERE asset_id = '${assetId}'"}`
   };
 
   fetch('https://testnet.burstiq.com/api/burstchain/mines_summer/Medications/assets/query', reqSpec)
@@ -88,13 +89,26 @@ function queryByAssetId(data){
 
 
 //transfer ownership of a drug from a donor to the inventory
-export async function transferToInventory (assetId, chainClient, medicationsDictionary, privateIdInventory, publicIdInventory, privateIdUser, publicIdUser) {
-  const transferResp = await chainClient.transferAsset(medicationsDictionary.collection, privateIdInventory, assetId, [publicIdUser],
-    [publicIdInventory], publicIdInventory);
-  //the original owner should NO longer be able to see this asset
-  let resp = await chainClient.getLatestAsset(medicationsDictionary.collection, privateIdUser, assetId);
-  //the new owner should be able to see this asset
-  resp = await chainClient.getLatestAsset(medicationsDictionary.collection, privateIdInventory, assetId);
+export async function transferToInventory (assetId) {
+
+  //Hard-coded values
+  let publicIdInventory = "b3155808a4067004115271b53a1313ab419f4a64"
+  let publicIdUser = "a33a569382be82588775ba9dcce2522399039c19"
+
+  const reqSpec = {
+    method: 'POST',
+    headers: {
+      'accept': 'application/json',
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${localStorage.getItem("token")}`
+    },
+    body: `{"asset_id": "${assetId}","new_owners": ["${publicIdInventory}"],"new_signer_public_id": "${publicIdInventory}","owners": ["${publicIdUser}"]}`
+  };
+
+  fetch('https://testnet.burstiq.com/api/burstchain/mines_summer/Medications/transfer', reqSpec)
+  .then(resp => resp.json())
+  .then(data => console.log(data))
+
 }
 
 
@@ -109,7 +123,7 @@ export async function getAvailableInventory () {
   const privateIdInventory = 'c50188204aecb09d';
 
   let inventory = await queryForInventory(privateIdInventory, "Approved")
-  inventory = inventory.json();
+  .then(resp => resp.json())
   let arrOfInventory = Array.from(Array(inventory.length), () => new Array(3));
   for (let i = 0; i < inventory.length; i++) {
 
@@ -147,13 +161,29 @@ async function queryForInventory(privateIdInventory, status){
 
 
 //transfer ownership of a drug from the inventory to a recipient
-export async function transferFromInventory (assetId, chainClient, medicationsDictionary, privateIdInventory, publicIdInventory, privateIdUser, publicIdUser) {
-  const transferResp = await chainClient.transferAsset(medicationsDictionary.collection, privateIdInventory, assetId, [publicIdInventory],
-    [publicIdUser], publicIdUser);
-  //the original owner should NO longer be able to see this asset
-  let resp = await chainClient.getLatestAsset(medicationsDictionary.collection, privateIdInventory, assetId);
-  //the new owner should be able to see this asset
-  resp = await chainClient.getLatestAsset(medicationsDictionary.collection, privateIdUser, assetId);
+export async function transferfromInventory (assetId) {
+  localStorage.setItem("newAssetId", assetId)
+  //TODO get asset Id passed in
+
+  //Hard-coded values
+  let privateIdInventory = "c50188204aecb09d"
+  let publicIdInventory = "b3155808a4067004115271b53a1313ab419f4a64"
+  let publicIdUser = "a33a569382be82588775ba9dcce2522399039c19"
+
+  const reqSpec = {
+    method: 'POST',
+    headers: {
+      'accept': 'application/json',
+      'Content-Type': 'application/json',
+      'Authorization': `ID ${privateIdInventory}`
+    },
+    body: `{"asset_id": "${assetId}","new_owners": ["${publicIdUser}"],"new_signer_public_id": "${publicIdUser}","owners": ["${publicIdInventory}"]}`
+  };
+
+  fetch('https://testnet.burstiq.com/api/burstchain/mines_summer/Medications/transfer', reqSpec)
+  .then(resp => resp.json())
+  .then(data => console.log(data))
+
 }
 
 
@@ -208,27 +238,7 @@ export async function addUserPrescription(inputValues: string[]){
   //set inventory private ID
   const privateIdInventory = 'c50188204aecb09d';
 
-  let userAsset = await queryByUserEmail(privateIdInventory, localStorage.getItem("email"))
-
-  //update the user to add this prescription:
-  userAsset.prescriptions.push(prescription);
-
-  //TODO update asset body
-  const reqSpec = {
-    method: 'PUT',
-    headers: {
-      'accept': 'application/json',
-      'Content-Type': 'application/json',
-      'Authorization': `ID ${privateIdInventory}`
-    },
-    body: ``
-  };
-
-  //Gets API response
-  fetch('https://testnet.burstiq.com/api/burstchain/mines_summer/RemedichainUsers/asset', reqSpec)
-  .then(resp => resp.json())
-  .then(data => console.log(data))
-
+  await queryByUserEmail(privateIdInventory)
 }
 
 
@@ -236,7 +246,7 @@ export async function addUserPrescription(inputValues: string[]){
 
 
 //Check RemedichainUsers dictionary for the user asset based off of the email of the current user logged in
-async function queryByUserEmail(privateIdInventory, userEmail){
+async function queryByUserEmail(privateIdInventory){
   const reqSpec = {
     method: 'POST',
     headers: {
@@ -244,15 +254,36 @@ async function queryByUserEmail(privateIdInventory, userEmail){
       'Content-Type': 'application/json',
       'Authorization': `ID ${privateIdInventory}`
     },
-    body: `{"queryTql": "SELECT * FROM RemedichainUsers WHERE asset.user_email = '${userEmail}'"}`
+    body: `{"queryTql": "SELECT * FROM RemedichainUsers WHERE asset.user_email = 'johndoenor@gmail.com'"}`
   };
 
-  let userAssets = await fetch('https://testnet.burstiq.com/api/burstchain/mines_summer/RemedichainUsers/assets/query', reqSpec)
-  let userAsset = userAssets[0].asset;
-  return userAsset;
+  let userAssets = null
+  await fetch('https://testnet.burstiq.com/api/burstchain/mines_summer/RemedichainUsers/assets/query', reqSpec)
+  .then(resp => resp.json()) 
+  .then(data => updateUserPrescriptions(data, privateIdInventory))
 }
 
 
+
+async function updateUserPrescriptions(response, privateIdInventory){
+  let userAsset = response.assets[0].asset
+  let assetId = response.assets[0].asset_id
+  
+  const reqSpec = {
+    method: 'PUT',
+    headers: {
+      'accept': 'application/json',
+      'Content-Type': 'application/json',
+      'Authorization': `ID ${privateIdInventory}`
+    },
+    body: `{"asset": ${JSON.stringify(userAsset)}, "asset_id": "${assetId}"}`
+  };
+  
+  //Gets API response
+  fetch('https://testnet.burstiq.com/api/burstchain/mines_summer/RemedichainUsers/asset', reqSpec)
+  .then(resp => resp.json())
+  .then(data => console.log(data))
+}
 
 
 
