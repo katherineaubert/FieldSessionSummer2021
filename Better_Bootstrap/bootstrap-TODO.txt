@@ -1,0 +1,12 @@
+Inventory Page:
+    - Get inventory to display correctly on table
+
+Donation Form Page:
+    - Take inputs from form and call addDonation(drugName, dose, quantity) from hello-medications.js
+
+Patient Prescription Request Form Page:
+    - Take inputs from form, use them to create an array of strings, and pass that array into addUserPrescription(array)
+
+
+BASIC Pharmacist Functionality (For Demo)
+    -Choose somewhere that makes sense and create a button that calls pharmacistMedicationApproval()
