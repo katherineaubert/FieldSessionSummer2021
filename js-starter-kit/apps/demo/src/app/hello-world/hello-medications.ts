@@ -38,8 +38,8 @@ export async function loginRequest(username: string, password: string){
   //Gets API response
   fetch('https://testnet.burstiq.com/api/userauth/login', reqSpec)
   .then(resp => resp.json())
-  .then(data => {console.log(data)
-    putTokenInLocalStorage(data)})
+  .then(data => {putTokenInLocalStorage(data)
+    console.log(data)})
   
 }
 
@@ -79,8 +79,8 @@ export async function addDonation (drug_name, dose, quantity){
   //Gets API response
   fetch('https://testnet.burstiq.com/api/burstchain/mines_summer/Medications/asset', reqSpec)
   .then(resp => resp.json())
-  .then(data => data.asset_id)
-  .then(assetId => transferToInventory(assetId))
+  .then(data => {transferToInventory(data.asset_id)
+  console.log(data)})
 
 }
 
@@ -152,7 +152,8 @@ function queryByAssetId(assetId, privateIdInventory){
 
   fetch('https://testnet.burstiq.com/api/burstchain/mines_summer/Medications/assets/query', reqSpec)
   .then(resp => resp.json()) 
-  .then(data => updateMedicationStatus(data, privateIdInventory))
+  .then(data => {updateMedicationStatus(data, privateIdInventory)
+    console.log(data)})
 
 }
 
@@ -209,8 +210,8 @@ export async function queryForInventory(status){
 
   fetch('https://testnet.burstiq.com/api/burstchain/mines_summer/Medications/assets/query', reqSpec)
   .then(resp => resp.json())
-  .then(data => {console.log(data)
-    displayInventory(data.assets)})
+  .then(data => {displayInventory(data.assets)
+    console.log(data)})
   
 }
 
@@ -341,8 +342,8 @@ async function queryByUserEmail(privateIdInventory, prescription){
   
   await fetch('https://testnet.burstiq.com/api/burstchain/mines_summer/RemedichainUsers/assets/query', reqSpec)
   .then(resp => resp.json()) 
-  .then(data => {console.log(data)
-    updateUserPrescriptions(data, privateIdInventory, prescription)})
+  .then(data => {updateUserPrescriptions(data, privateIdInventory, prescription)
+    console.log(data)})
 }
 
 
