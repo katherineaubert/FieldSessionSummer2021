@@ -2,7 +2,7 @@
 import { callbackify } from 'util';
 import './app.element.scss';
 import { CustomElement } from './custom-element'
-import { addDonation, addUserPrescription, getAvailableInventory, loginRequest } from './hello-world/hello-medications'
+import { addDonation, addUserPrescription, queryForInventory, loginRequest, pharmacistMedicationApproval } from './hello-world/hello-medications'
 
 export class AppElement extends CustomElement {
   public static observedAttributes = [];
@@ -11,9 +11,11 @@ export class AppElement extends CustomElement {
     css
 
     inputForm: HTMLFormElement
-    inputKeys: string[] = ['drugName', 'dose', 'qty', 'inputEmail', 'inputPassword']
+    inputKeys: string[] = ['inputEmail', 'inputPassword', 'drugName', 'dose', 'qty']
     inputValues: string[]
-    lines: string[] = [] // you may need an = [] at the end but maybe not im not sure
+    inputKeysTwo: string[] = ['drugName', 'dose', 'qty']
+    inputValuesTwo: string[]
+    lines: string[] = []
 
 
     constructor() {
@@ -83,6 +85,9 @@ export class AppElement extends CustomElement {
           <div>
             <button id="runDemoTwo" type="submit">Donate</button>
           </div>
+          <div>
+            <button id="runDemoThree" type="submit">Pharmacist Approval</button>
+          </div>
         </form>
 
         <details open>
@@ -105,6 +110,8 @@ export class AppElement extends CustomElement {
     this.shadowRoot.querySelector('#runDemo').addEventListener('click', this.runDemo.bind(this))
 
     this.shadowRoot.querySelector('#runDemoTwo').addEventListener('click', this.runDemoTwo.bind(this))
+
+    this.shadowRoot.querySelector('#runDemoThree').addEventListener('click', this.runDemoThree.bind(this))
   }
 
   addLine(line) {
@@ -122,7 +129,9 @@ export class AppElement extends CustomElement {
         return elm.value
       })
       
-      loginRequest(this.inputValues[3], this.inputValues[4])
+
+      //User Login API Call
+      loginRequest(this.inputValues[0], this.inputValues[1])
     }
   }
 
@@ -131,20 +140,38 @@ export class AppElement extends CustomElement {
     console.log('Running Demo 2:');
     this.lines = []
     if (this.inputForm.checkValidity()) {
-      this.inputValues = this.inputKeys.map(name => {
+      this.inputValuesTwo = this.inputKeysTwo.map(name => {
         const elm = this.inputForm.elements.namedItem(name) as HTMLInputElement
         return elm.value
       })
 
-      addDonation(this.inputValues[0], this.inputValues[1], this.inputValues[2]);
 
+      //Create Asset, Transfer to Inventory
+      addDonation(this.inputValuesTwo[0], this.inputValuesTwo[1], this.inputValuesTwo[2]);
+      
+    }
+  }
+
+
+  runDemoThree() {
+    console.log('Running Demo 3:');
+    this.lines = []
+    if (this.inputForm.checkValidity()) {
+      this.inputValuesTwo = this.inputKeysTwo.map(name => {
+        const elm = this.inputForm.elements.namedItem(name) as HTMLInputElement
+        return elm.value
+      })
+
+      //Query asset by ID, Update asset.status
+      pharmacistMedicationApproval()
+
+      //Query asset by user email, Update asset.prescriptions[]
       addUserPrescription(['alpha', 'beta', 'gamma', 'delta', 'epsilon', 'zeta', 'eta',
       'theta', 'iota', 'kappa', 'lambda', 'mu', 'nu', 'xi', 'omicron', 'pi', 'rho', 'sigma', 'tau',
       'upsilon', 'fi', 'chi', 'psi', 'omega'])
-
-      let invArrString = []
       
-      //displayInventory()
+      //Query for inventory, display inventory
+      queryForInventory("Approved")
       
     }
   }
@@ -155,29 +182,29 @@ export class AppElement extends CustomElement {
 
 }
 
-function displayInventory(){
-  let invArrString = []
-  let invArrPromise = getAvailableInventory();
-  invArrPromise.then(
-     value => {
-        for (let i = 0; i < value.length; i++){
-          invArrString.push(value[i])
-        }
-        for (let i = 0; i < invArrString.length; i++){
-          console.log(invArrString[i]);
-          //document.write(invArrString[i]);
-         
-        }
-      
-      
-    }
-  ).catch(
-    error => {
-      invArrString = ["No Inventory - Error"]
-      error = "There was an error loading the inventory. Please try again."; alert(error)
-      
-    }
-  )
-}
-
 customElements.define('starter-kit-root', AppElement);
+
+// function displayInventory(){
+//   let invArrString = []
+//   let invArrPromise = getAvailableInventory();
+//   invArrPromise.then(
+//      value => {
+//         for (let i = 0; i < value.length; i++){
+//           invArrString.push(value[i])
+//         }
+//         for (let i = 0; i < invArrString.length; i++){
+//           console.log(invArrString[i]);
+//           //document.write(invArrString[i]);
+         
+//         }
+      
+      
+//     }
+//   ).catch(
+//     error => {
+//       invArrString = ["No Inventory - Error"]
+//       error = "There was an error loading the inventory. Please try again."; alert(error)
+      
+//     }
+//   )
+// }

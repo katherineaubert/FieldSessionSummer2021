@@ -2,10 +2,7 @@
 //TODO 4 LINKING//
 //////////////////
 
-?- Fix displayInventory/getAvailableInventory query API Call
-2min- Copy fixed displayInventory code into getPendingInventory to have that functionality set up
-5min- Add query by Asset Id to get and update newly created status w/ status Approved upon pharma demo button click
-5min- Fix code for transferFromInventory
+Fix adding assetId to localStorage
 
 ?- Link displayInventory to David's html
 ?- Link addDonation to David's html (transfer to inventory automatic upon donation addition, status = Pending)
