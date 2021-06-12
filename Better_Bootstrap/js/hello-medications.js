@@ -72,7 +72,10 @@ function loginRequest(username, password) {
                 .then(function (resp) { return resp.json(); })
                 .then(function (data) {
                 putTokenInLocalStorage(data);
-                console.log(data);
+                    console.log(data);
+                    if (data.status == 200) {
+                        location.assign("./account.html")
+                    }
             });
             return [2 /*return*/];
         });
