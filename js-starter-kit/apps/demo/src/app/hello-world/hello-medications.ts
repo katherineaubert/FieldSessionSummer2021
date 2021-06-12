@@ -159,9 +159,9 @@ function queryByAssetId(assetId, privateIdInventory){
 async function updateMedicationStatus(response, privateIdInventory){
   let userAsset = response.assets[0].asset
   let assetId = response.assets[0].asset_id
-  
+  console.log(userAsset)
   userAsset.status = "Approved"
-
+  console.log(userAsset)
   const reqSpec = {
     method: 'PUT',
     headers: {
@@ -172,8 +172,9 @@ async function updateMedicationStatus(response, privateIdInventory){
     body: `{"asset": ${JSON.stringify(userAsset)}, "asset_id": "${assetId}"}`
   };
   
+  console.log(reqSpec.body)
   //Gets API response
-  fetch('https://testnet.burstiq.com/api/burstchain/mines_summer/RemedichainUsers/asset', reqSpec)
+  fetch('https://testnet.burstiq.com/api/burstchain/mines_summer/Medications/asset', reqSpec)
   .then(resp => resp.json())
   .then(data => console.log(data))
 }
