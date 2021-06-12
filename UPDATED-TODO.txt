@@ -2,8 +2,6 @@
 //TODO 4 LINKING//
 //////////////////
 
-Fix adding assetId to localStorage
-
 ?- Link displayInventory to David's html
 ?- Link addDonation to David's html (transfer to inventory automatic upon donation addition, status = Pending)
 ?- Link loginRequest to David's html

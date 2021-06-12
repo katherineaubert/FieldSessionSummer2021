@@ -3,8 +3,9 @@
 
 
 
+//Imports that were used in old version of file
 
-/*Can get rid of these?
+/*
  *import {Asset} from "../http/burstchain-interfaces";
  *import { BurstChainSDK } from '../http/burst-server-endpoints';
  *import { medicationsDictionary, userDictionary } from '../hello-world/dictionary-formats';
@@ -159,9 +160,9 @@ function queryByAssetId(assetId, privateIdInventory){
 async function updateMedicationStatus(response, privateIdInventory){
   let userAsset = response.assets[0].asset
   let assetId = response.assets[0].asset_id
-  console.log(userAsset)
+
   userAsset.status = "Approved"
-  console.log(userAsset)
+
   const reqSpec = {
     method: 'PUT',
     headers: {

@@ -11,7 +11,7 @@ export class AppElement extends CustomElement {
     css
 
     inputForm: HTMLFormElement
-    inputKeys: string[] = ['inputEmail', 'inputPassword', 'drugName', 'dose', 'qty']
+    inputKeys: string[] = ['inputEmail', 'inputPassword']
     inputValues: string[]
     inputKeysTwo: string[] = ['drugName', 'dose', 'qty']
     inputValuesTwo: string[]
