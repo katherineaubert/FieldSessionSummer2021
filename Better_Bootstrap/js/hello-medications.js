@@ -110,6 +110,10 @@ function addDonation(drug_name, dose, quantity) {
                 .then(function (data) {
                 transferToInventory(data.asset_id);
                 console.log(data);
+
+                if (data.status == 200) {
+                    location.assign("./account.html")
+                }
             });
             return [2 /*return*/];
         });
