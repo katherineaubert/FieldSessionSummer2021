@@ -236,25 +236,25 @@ function displayInventory(inventory) {
         //call html to print here
         //***********************
         var table = document.getElementById('myTable')
-        
+
         for (var i = 0; i < arrOfInventory.length; i++) {
             var row = `<tr>
-                                <td>
-                                    <!--View Button-->
-                                        <button class="morebtn btn btn-primary" data-toggle="modal" data-target="#drugModal">
-                                    View
-                                    </button>
-                                </td>
-                                            <td class="drugName">${arrOfInventory[i][0]}</td>
-                                            <td class="drugDose">${arrOfInventory[i][1]}</td>
-                                            <td class="drugQty">${arrOfInventory[i][2]}</td>
-                                      </tr>`
+                        <td>
+                            <!--View Button-->
+                            <button class="morebtn btn btn-primary" data-toggle="modal" data-target="#drugModal">
+                                View
+                            </button>
+                        </td>
+                        <td class="drugName">${arrOfInventory[i][0]}</td>
+                        <td class="drugDose">${arrOfInventory[i][1]}</td>
+                        <td class="drugQty">${arrOfInventory[i][2]}</td>
+                    </tr>`
             table.innerHTML += row
         }
+        localStorage.setItem("inventoryArray", arrOfInventory)
     }
     //TODO return may not work, so may want to rewire this to just create the html straight up
     //returns a 2D JS array, where each row is a med, and each column is a name/dose/quantity in that order
-    return arrOfInventory;
 }
 //transfer ownership of a drug from the inventory to a recipient - in this case the same user as the donor
 function transferfromInventory(assetId) {

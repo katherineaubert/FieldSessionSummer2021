@@ -86,7 +86,10 @@
                         <th scope="col">Qty Remaining</th> <!--Title of the column-->
                     </tr>
                 </thead>
-                <tbody id="myTable">
+
+                <tbody onload="queryForInventory('Approved')" id="myTable">
+                </tbody>
+                <!--<tbody id="myTable">-->
                     <!--Body of the table-->
                     <!--*******************************************************************************-->
                     <!--*******************************************************************************-->
@@ -95,40 +98,37 @@
                     <!--*******************************************************************************-->
                     <!--https://www.mysamplecode.com/2012/04/generate-html-table-using-javascript.html-->
 
-                    <tbody onload="queryForInventory('Approved')"> </tbody>
+                    <tr>
+                        <!--Row 1-->
+                        <td>
+                            <!--View Button-->
+                            <button class="morebtn btn btn-primary" data-toggle="modal" data-target="#drugModal">
+                                View
+                            </button>
+                        </td>
 
-                        <tr>
-                            <!--Row 1-->
-                            <td>
-                                <!--View Button-->
-                                <button class="morebtn btn btn-primary" data-toggle="modal" data-target="#drugModal">
-                                    View
-                                </button>
-                            </td>
+                        <td class="drugName">Testing Name</td> <!--Drug Name-->
+                        <td class="drugDose">10000mg</td> <!--Drug Dosage-->
+                        <td class="drugQty">30</td> <!--Quantity of Drug-->
+                    </tr>
+                    <tr>
+                        <!--Row 2-->
+                        <td>
+                            <!--View Button-->
+                            <button class="morebtn btn btn-primary" data-toggle="modal" data-target="#drugModal">
+                                View
+                            </button>
+                        </td>
 
-                            <td class="drugName">Testing Name</td> <!--Drug Name-->
-                            <td class="drugDose">10000mg</td> <!--Drug Dosage-->
-                            <td class="drugQty">30</td> <!--Quantity of Drug-->
-                        </tr>
-                        <tr>
-                            <!--Row 2-->
-                            <td>
-                                <!--View Button-->
-                                <button class="morebtn btn btn-primary" data-toggle="modal" data-target="#drugModal">
-                                    View
-                                </button>
-                            </td>
-
-                            <td class="drugName">Testing Name 2</td> <!--Drug Name-->
-                            <td class="drugDose">100mg</td> <!--Drug Dosage-->
-                            <td class="drugQty">30000</td> <!--Quantity of Drug-->
-                        </tr>
+                        <td class="drugName">Testing Name 2</td> <!--Drug Name-->
+                        <td class="drugDose">100mg</td> <!--Drug Dosage-->
+                        <td class="drugQty">30000</td> <!--Quantity of Drug-->
+                    </tr>
 
                 </tbody>
             </table>
         </div>
     </section>
-
 
 
     <!--*********************************-->
