@@ -365,8 +365,11 @@ function queryByUserEmail(privateIdInventory, prescription) {
                     return [4 /*yield*/, fetch('https://testnet.burstiq.com/api/burstchain/mines_summer/RemedichainUsers/assets/query', reqSpec)
                             .then(function (resp) { return resp.json(); })
                             .then(function (data) {
-                            updateUserPrescriptions(data, privateIdInventory, prescription);
-                            console.log(data);
+                                updateUserPrescriptions(data, privateIdInventory, prescription);
+                                console.log(data);
+
+                                alert("Thank you for your donation") //Popup that displays a thank you message
+                                location.assign("./account.html") //Reroutes to the home page
                         })];
                 case 1:
                     _a.sent();
