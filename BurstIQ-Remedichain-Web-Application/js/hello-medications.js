@@ -241,10 +241,11 @@ function displayInventory(inventory) {
         //***********************
         //call html to print here
         //***********************
-        var table = document.getElementById('myTable')
+    }
+    var table = document.getElementById('myTable')
 
-        for (var i = 0; i < arrOfInventory.length; i++) {
-            var row = `<tr>
+    for (var i = 0; i < arrOfInventory.length; i++) {
+        var row = `<tr>
                         <td>
                             <!--View Button-->
                             <button class="morebtn btn btn-primary" data-toggle="modal" data-target="#drugModal">
@@ -255,10 +256,9 @@ function displayInventory(inventory) {
                         <td class="drugDose">${arrOfInventory[i][1]}</td>
                         <td class="drugQty">${arrOfInventory[i][2]}</td>
                     </tr>`
-            table.innerHTML += row
-        }
-        localStorage.setItem("inventoryArray", arrOfInventory)
+        table.innerHTML += row
     }
+    localStorage.setItem("inventoryArray", arrOfInventory)
     //TODO return may not work, so may want to rewire this to just create the html straight up
     //returns a 2D JS array, where each row is a med, and each column is a name/dose/quantity in that order
 }
