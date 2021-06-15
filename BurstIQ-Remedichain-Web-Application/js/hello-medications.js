@@ -77,7 +77,7 @@ function loginRequest(username, password) {
                         location.assign("./account.html")
                     }
                     else {
-                        alert("Sorry you have entered the wrong username or password, please try again")
+                        alert("Sorry, you have entered the wrong username or password. Please try again.")
                     }
             });
             return [2 /*return*/];
@@ -114,7 +114,7 @@ function addDonation(drug_name, dose, quantity) {
                     transferToInventory(data.asset_id);
                     console.log(data);
 
-                    alert("Thank you for your donation") //Popup that displays a thank you message
+                    alert("Thank you for your donation! Remedichain will contact you shortly with shipping information.") //Popup that displays a thank you message
                     location.assign("./account.html") //Reroutes to the home page
             });
             return [2 /*return*/];
@@ -368,7 +368,7 @@ function queryByUserEmail(privateIdInventory, prescription) {
                                 updateUserPrescriptions(data, privateIdInventory, prescription);
                                 console.log(data);
 
-                                alert("Thank you for your donation") //Popup that displays a thank you message
+                                alert("Your prescription request has been recieved. Remedichain will be in contact with you shortly!") //Popup that displays a thank you message
                                 location.assign("./account.html") //Reroutes to the home page
                         })];
                 case 1:
