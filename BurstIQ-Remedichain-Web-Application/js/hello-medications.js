@@ -111,12 +111,11 @@ function addDonation(drug_name, dose, quantity) {
             fetch('https://testnet.burstiq.com/api/burstchain/mines_summer/Medications/asset', reqSpec)
                 .then(function (resp) { return resp.json(); })
                 .then(function (data) {
-                transferToInventory(data.asset_id);
-                console.log(data);
+                    transferToInventory(data.asset_id);
+                    console.log(data);
 
-                if (data.status == 200) {
-                    location.assign("./account.html")
-                }
+                    alert("Thank you for your donation") //Popup that displays a thank you message
+                    location.assign("./account.html") //Reroutes to the home page
             });
             return [2 /*return*/];
         });
