@@ -76,6 +76,9 @@ function loginRequest(username, password) {
                     if (data.status == 200) {
                         location.assign("./account.html")
                     }
+                    else {
+                        alert("Sorry you have entered the wrong username or password, please try again")
+                    }
             });
             return [2 /*return*/];
         });
