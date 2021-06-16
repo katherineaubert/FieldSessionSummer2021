@@ -24,5 +24,5 @@ addUserPrescription,
 queryByUserEmail, 
 updateUserPrescription
 
-There are detailed comments in the code which describe in further detail each of these individual functions. 
+There are detailed comments within the code describing further detail for each of these individual functions. 
 
