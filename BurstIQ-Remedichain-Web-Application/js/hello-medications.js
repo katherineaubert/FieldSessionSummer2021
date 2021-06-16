@@ -40,20 +40,12 @@ exports.__esModule = true;
 exports.addUserPrescription = exports.transferfromInventory = exports.queryForInventory = exports.pharmacistMedicationApproval = exports.transferToInventory = exports.addDonation = exports.loginRequest = void 0;
 
 
-//Imports that were used in old version of file
-/*
- *import {Asset} from "../http/burstchain-interfaces";
- *import { BurstChainSDK } from '../http/burst-server-endpoints';
- *import { medicationsDictionary, userDictionary } from '../hello-world/dictionary-formats';
- *import { callbackify } from "util";
- *import { parse } from "querystring";
- *
- *(//)rename console.log() to cb() for faster typing and to set up the black box on the test UI
- *const log = (line) => console.log(line)
- */
+
 //////////////
 //USER LOGIN//
 //////////////
+
+//enter a username and password to collect a JWT token and place it in local storage
 function loginRequest(username, password) {
     return __awaiter(this, void 0, void 0, function () {
         var reqSpec;
@@ -85,13 +77,18 @@ function loginRequest(username, password) {
     });
 }
 exports.loginRequest = loginRequest;
-//Take in response and store the JWT token in localstorage
+
+
+//take in response and store the JWT token in localstorage
 function putTokenInLocalStorage(data) {
     localStorage.setItem("token", data.token);
 }
+
+
 ////////////////////////////
 //Donation Form Submission//
 ////////////////////////////
+
 //create an asset on the medications blockchain, called when the donation form is filled out
 function addDonation(drug_name, dose, quantity) {
     return __awaiter(this, void 0, void 0, function () {
@@ -107,7 +104,7 @@ function addDonation(drug_name, dose, quantity) {
                 },
                 body: "{\"owners\": [\"" + publicIdUser + "\"], \"asset\": {\"drug_name\": \"" + drug_name + "\", \"dose\": \"" + dose + "\", \"quantity\": \"" + quantity + "\", \"status\": \"Pending\"}}"
             };
-            //Gets API response
+            //gets API response
             fetch('https://testnet.burstiq.com/api/burstchain/mines_summer/Medications/asset', reqSpec)
                 .then(function (resp) { return resp.json(); })
                 .then(function (data) {
@@ -122,7 +119,9 @@ function addDonation(drug_name, dose, quantity) {
     });
 }
 exports.addDonation = addDonation;
-//transfer ownership of a drug from a donor to the inventory
+
+
+//transfer ownership of a drug from a donor to the inventory with a pending status
 function transferToInventory(assetId) {
     return __awaiter(this, void 0, void 0, function () {
         var publicIdInventory, publicIdUser, reqSpec;
@@ -147,9 +146,12 @@ function transferToInventory(assetId) {
     });
 }
 exports.transferToInventory = transferToInventory;
+
+
 /////////////////////////////////////////////////////////////
 //Demo Functionality for Pharmacist to Approve a Medication//
 /////////////////////////////////////////////////////////////
+
 function pharmacistMedicationApproval() {
     //get newly created asset from localStorage for demo
     var assetId = localStorage.getItem("newAssetId");
@@ -158,6 +160,8 @@ function pharmacistMedicationApproval() {
     queryByAssetId(assetId, privateIdInventory);
 }
 exports.pharmacistMedicationApproval = pharmacistMedicationApproval;
+
+
 //query Medications with a specfic asset ID
 function queryByAssetId(assetId, privateIdInventory) {
     var reqSpec = {
@@ -176,6 +180,9 @@ function queryByAssetId(assetId, privateIdInventory) {
         console.log(data);
     });
 }
+
+
+//update the asset from Pending status to Approved status
 function updateMedicationStatus(response, privateIdInventory) {
     return __awaiter(this, void 0, void 0, function () {
         var userAsset, assetId, reqSpec;
@@ -201,9 +208,12 @@ function updateMedicationStatus(response, privateIdInventory) {
         });
     });
 }
+
+
 /////////////////////////
 //Display the Inventory//
 /////////////////////////
+
 //query for the array of medications in inventory matching the specified status
 function queryForInventory(status) {
     return __awaiter(this, void 0, void 0, function () {
@@ -230,6 +240,9 @@ function queryForInventory(status) {
     });
 }
 exports.queryForInventory = queryForInventory;
+
+
+//takes asset data to display the inventory as a table on the web page
 function displayInventory(inventory) {
     var arrOfInventory = Array.from(Array(inventory.length), function () { return new Array(3); });
     for (var i = 0; i < inventory.length; i++) {
@@ -238,10 +251,9 @@ function displayInventory(inventory) {
         arrOfInventory[i][2] = inventory[i].asset.quantity;
         //Temporary soln, print each asset to console
         console.log(arrOfInventory[i]);
-        //***********************
-        //call html to print here
-        //***********************
     }
+
+    //HTML code to show the table
     var table = document.getElementById('myTable')
 
     for (var i = 0; i < arrOfInventory.length; i++) {
@@ -259,10 +271,13 @@ function displayInventory(inventory) {
         table.innerHTML += row
     }
     localStorage.setItem("inventoryArray", arrOfInventory)
-    //TODO return may not work, so may want to rewire this to just create the html straight up
-    //returns a 2D JS array, where each row is a med, and each column is a name/dose/quantity in that order
 }
-//transfer ownership of a drug from the inventory to a recipient - in this case the same user as the donor
+
+/////////////////////////////////
+//Transfer Assets To Recipients//
+/////////////////////////////////
+
+//transfer ownership of an asset from the inventory to a recipient - in this case the same user as the donor
 function transferfromInventory(assetId) {
     return __awaiter(this, void 0, void 0, function () {
         var privateIdInventory, publicIdInventory, publicIdUser, reqSpec;
@@ -287,9 +302,12 @@ function transferfromInventory(assetId) {
     });
 }
 exports.transferfromInventory = transferfromInventory;
+
+
 /////////////////////////////
 //Prescription Request Form//
 /////////////////////////////
+
 //adds a prescription to a user's data on the user blockchain after they fill out a presciption request form
 function addUserPrescription(inputValues) {
     return __awaiter(this, void 0, void 0, function () {
@@ -346,6 +364,7 @@ function addUserPrescription(inputValues) {
     });
 }
 exports.addUserPrescription = addUserPrescription;
+
 //Check RemedichainUsers dictionary for the user asset based off of the email of the current user logged in
 function queryByUserEmail(privateIdInventory, prescription) {
     return __awaiter(this, void 0, void 0, function () {
@@ -378,6 +397,8 @@ function queryByUserEmail(privateIdInventory, prescription) {
         });
     });
 }
+
+//update the user prescriptions array on the chain of user data
 function updateUserPrescriptions(response, privateIdInventory, prescription) {
     return __awaiter(this, void 0, void 0, function () {
         var userAsset, assetId, reqSpec;
