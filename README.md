@@ -5,7 +5,7 @@ In order to start the program, launch the GitHub repository and click on the “
 
 All HTML files needed for this project are contained in the root of the BurstIQ-Remedichain-Web-Application directory. 
 
-All css components are stored in the "css" directory. 
+All css components are stored in the "css" directory. Our css framework was Bootstrap.   
 
 The entirety of our backend functionality is stored within the “js” folder within the “hello-medications.js” file. 
 
