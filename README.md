@@ -11,17 +11,17 @@ The entirety of our backend functionality is stored within the “js” folder w
 
 These functions are named:
 
-loginRequest
-addDonation
-transferToInventory 
-pharmacistMedicationApproval 
-queryByAssetId
-updateMedicationStatus
-queryForInventory
-displayInventory
-transferFromInventory 
-addUserPrescription
-queryByUserEmail 
+loginRequest, 
+addDonation, 
+transferToInventory, 
+pharmacistMedicationApproval,  
+queryByAssetId, 
+updateMedicationStatus, 
+queryForInventory, 
+displayInventory, 
+transferFromInventory,  
+addUserPrescription, 
+queryByUserEmail, 
 updateUserPrescription
 
 There are detailed comments in the code which describe in further detail each of these individual functions. 
