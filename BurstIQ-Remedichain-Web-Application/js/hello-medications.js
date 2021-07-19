@@ -379,7 +379,7 @@ function queryByUserEmail(privateIdInventory, prescription) {
                             'Content-Type': 'application/json',
                             'Authorization': "ID " + privateIdInventory
                         },
-                        body: "{\"queryTql\": \"SELECT * FROM RemedichainUsers WHERE asset.user_email = 'johndoenor@gmail.com'\"}"
+                        body: "{\"queryTql\": \"SELECT * FROM RemedichainUsers WHERE asset.user_email = 'anakinsky@jeditemple.com'\"}"
                     };
                     return [4 /*yield*/, fetch('https://testnet.burstiq.com/api/burstchain/mines_summer/RemedichainUsers/assets/query', reqSpec)
                             .then(function (resp) { return resp.json(); })
